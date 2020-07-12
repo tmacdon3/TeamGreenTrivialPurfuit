@@ -1,8 +1,11 @@
+"""
+@author: Tyler MacDonald
+"""
+
 import os
+from State import State
 import sys
 import tkinter as tk
-
-LARGE_FONT= ("Verdana", 12)
 
 x_padding = 25
 y_padding = 25
@@ -15,11 +18,14 @@ EXTRA2_BG = "#e76f51"
 
 class QuestionDisplayFrame(tk.Frame):
 
-    def __init__(self, master, state_manager):
+    def __init__(self, master, state_manager, database_interface):
         """
         """
-        tk.Frame.__init__(self, master=master, bg="#264653")
+        tk.Frame.__init__(self, master=master, bg=FRAME_BG)
         self.state_manager = state_manager
+        self.database_interface = database_interface
+
+        self.get_questions_and_answers()
 
         lbl_question_header = tk.Label(master=self, font=("Verdana", 44), bg=LABEL_BG, text="Question")
         lbl_time_limit = tk.Label(master=self, bg=LABEL_BG, text="Time Display")
@@ -47,24 +53,37 @@ class QuestionDisplayFrame(tk.Frame):
     def highlight_question_one(self):
         """
         """
+        print("QuestionDisplayFrame: Focus Set on Answer One")
         self.btn_answer_one.focus_set()
 
     def highlight_question_two(self):
         """
         """
+        print("QuestionDisplayFrame: Focus Set on Answer Two")
         self.btn_answer_two.focus_set()
 
     def highlight_question_three(self):
         """
         """
+        print("QuestionDisplayFrame: Focus Set on Answer Three")
         self.btn_answer_three.focus_set()
 
     def highlight_question_four(self):
         """
         """
+        print("QuestionDisplayFrame: Focus Set on Answer Four")
         self.btn_answer_four.focus_set()
+
+    def get_questions_and_answers(self):
+        """
+        """
+        print("QuestionDisplayFrame: Sending Request for Questions and Answers to DatabaseInterface")
+        self.database_interface.get_question_and_answers()
 
     def confirm_btn_command(self):
         """
         """
-        print("Confirm Button: {}".format(self.focus_get()['text']))
+        answer = self.focus_get()['text']
+        print("QuestionDisplayFrame: Sending Correct/Incorrect Message to CoreGameLogic")
+        print("QuestionDisplayFrame: Sending State Transition Request to StateManager")
+        self.state_manager.transition_state(State.gameplay)
