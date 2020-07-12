@@ -2,6 +2,7 @@
 @author: Tyler MacDonald
 """
 
+from DatabaseInterface import DatabaseInterface
 from DatabaseToolFrame import DatabaseToolFrame
 from StateManager import StateManager
 import sys
@@ -16,10 +17,13 @@ class TrivialPurfuitApp(tk.Tk):
         """
         tk.Tk.__init__(self)
 
+        self.title("Team Green's Trivial Purfuit")
+
         # window resolution
         # self.geometry("1024x768")
 
         self.state_manager = StateManager(self)
+        self.database_interface = DatabaseInterface()
 
         self.active_frame = TitleScreenFrame(self, self.state_manager)
         self.active_frame.pack()
