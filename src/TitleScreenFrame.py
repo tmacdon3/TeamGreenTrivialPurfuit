@@ -57,10 +57,10 @@ class TitleScreenFrame(tk.Frame):
         """
         """
         print("TitleScreenFrame: Sending State Transition Request to StateManager")
-        self.state_manager.transition_state(State.gameplay)
+        self.state_manager.transition_state(State.new_game)
 
     def quit_game_btn_command(self):
         """
         """
         print("TitleScreenFrame: Sending State Transition Request to StateManager")
-        sys.exit(1)
+        self.state_manager.transition_state(State.quit)
