@@ -20,11 +20,12 @@ CATEGORIES = ["Category_1", "Category_2", "Category_3", "Category_4"]
 
 class DatabaseToolFrame(tk.Frame):
 
-    def __init__(self, master, state_manager):
+    def __init__(self, master, state_manager, database_interface):
         """
         """
         tk.Frame.__init__(self, bg=FRAME_BG)
         self.state_manager = state_manager
+        self.database_interface = database_interface
         
         lbl_database_tool = tk.Label(master=self, font=("Verdana", 44), bg=LABEL_BG, text="Database Tool")
         btn_restore_defaults = tk.Button(master=self, text="Restore Defaults", bg=BUTTON_BG, command=self.restore_defaults_btn_command)
@@ -76,25 +77,29 @@ class DatabaseToolFrame(tk.Frame):
     def add_item_btn_command(self):
         """
         """
-        print("Add Item Button")
+        print("DatabaseToolFrame: Sending Add Item Request to DatabaseInterface")
+        self.database_interface.add_item()
 
     def remove_item_btn_command(self):
         """
         """
-        print("Remove Item Button")
+        print("DatabaseToolFrame: Sending Remove Item Request to DatabaseInterface")
+        self.database_interface.remove_item()
 
     def restore_defaults_btn_command(self):
         """
         """
-        print("Restore Defaults Button")
+        print("DatabaseToolFrame: Sending Get All Request to DatabaseInterface")
+        self.database_interface.get_all()
 
     def change_category_color_btn_command(self):
         """
         """
-        print("Change category color")
+        print("DatabaseToolFrame: Sending Change Category Request to DatabaseInterface")
+        self.database_interface.change_category_color()
 
     def back_btn_command(self):
         """
         """
-        print("Back Button")
+        print("DatabaseToolFrame: Sending State Transition Request to StateManager")
         self.state_manager.transition_state(State.title_screen)
