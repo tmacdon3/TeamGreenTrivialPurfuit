@@ -12,12 +12,18 @@ LARGE_FONT= ("Verdana", 12)
 x_padding = 25
 y_padding = 25
 
+FRAME_BG = "#264653"
+BUTTON_BG = "#2a9d8f"
+LABEL_BG = "#e9c46a"
+EXTRA_BG = "#f4a261"
+EXTRA2_BG = "#e76f51"
+
 class TitleScreenFrame(tk.Frame):
 
     def __init__(self, master, state_manager):
         """
         """
-        tk.Frame.__init__(self, master=master, bg="#264653")
+        tk.Frame.__init__(self, master=master, bg=FRAME_BG)
         self.state_manager = state_manager
 
         ## create first frame with team green icon
@@ -27,12 +33,12 @@ class TitleScreenFrame(tk.Frame):
         lbl_team_green_logo.img = team_green_logo_image
 
         ## create second frame with buttons
-        btn_new_game = tk.Button(master=self, text="New Game", command=self.new_game_btn_command, bg="#2a9d8f")
-        btn_database_tool = tk.Button(master=self, text="Database Tool", command=self.database_tool_btn_command, bg="#2a9d8f")
-        btn_quit_game = tk.Button(master=self, text="Quit Game", command=self.quit_game_btn_command, bg="#2a9d8f")
+        btn_new_game = tk.Button(master=self, text="New Game", command=self.new_game_btn_command, bg=BUTTON_BG)
+        btn_database_tool = tk.Button(master=self, text="Database Tool", command=self.database_tool_btn_command, bg=BUTTON_BG)
+        btn_quit_game = tk.Button(master=self, text="Quit Game", command=self.quit_game_btn_command, bg=BUTTON_BG)
 
         ## create third title frame
-        lbl_game_title = tk.Label(master=self, font=("Verdana", 44), bg="#2a9d8f", text="Welcome to Trivial Purfuit")
+        lbl_game_title = tk.Label(master=self, font=("Verdana", 44), bg=LABEL_BG, text="Welcome to Trivial Purfuit")
 
         # layout properly
         lbl_game_title.grid(row=0, column=0, columnspan=2, padx=x_padding, pady=y_padding)
@@ -44,17 +50,17 @@ class TitleScreenFrame(tk.Frame):
     def database_tool_btn_command(self):
         """
         """
-        print("Database Tool")
+        print("TitleScreenFrame: Sending State Transition Request to StateManager")
         self.state_manager.transition_state(State.database_tool)
 
     def new_game_btn_command(self):
         """
         """
-        print("New Game")
+        print("TitleScreenFrame: Sending State Transition Request to StateManager")
         self.state_manager.transition_state(State.gameplay)
 
     def quit_game_btn_command(self):
         """
         """
-        print("Quit Game")
+        print("TitleScreenFrame: Sending State Transition Request to StateManager")
         sys.exit(1)
