@@ -3,6 +3,8 @@
 """
 
 from DatabaseToolFrame import DatabaseToolFrame
+from GameplayFrame import GameplayFrame
+from QuestionDisplayFrame import QuestionDisplayFrame
 from State import State
 import sys
 from TitleScreenFrame import TitleScreenFrame
@@ -21,14 +23,18 @@ class StateManager:
     def transition_state(self, state):
         """
         """
-        print("Transitioning from {} to {}".format(self.current_state, state))
+        print("StateManager: Transitioning from {} to {}".format(self.current_state, state))
         self.current_state = state
 
         # TODO: Actual logic for transitioning between states
         if self.current_state == State.title_screen:
             frame = TitleScreenFrame(self.app, self.app.state_manager)
         elif self.current_state == State.database_tool:
-            frame = DatabaseToolFrame(self.app, self.app.state_manager)
+            frame = DatabaseToolFrame(self.app, self.app.state_manager, self.app.database_interface)
+        elif self.current_state == State.gameplay:
+            frame = GameplayFrame(self.app, self.app.state_manager)
+        elif self.current_state == State.question:
+            frame = QuestionDisplayFrame(self.app, self.app.state_manager, self.app.database_interface)
         else:
             sys.exit(1)
 
