@@ -2,8 +2,11 @@
 @author: Tyler MacDonald
 """
 
+from DatabaseToolFrame import DatabaseToolFrame
+import sys
 import tkinter as tk
 from TitleScreenFrame import TitleScreenFrame
+from QuestionDisplayFrame import QuestionDisplayFrame
 
 class TrivialPurfuitApp(tk.Tk):
 
@@ -14,14 +17,23 @@ class TrivialPurfuitApp(tk.Tk):
 
         #self.geometry("1024x768")
 
-        title_screen = TitleScreenFrame(self)
-        title_screen.pack()
+        option = int(sys.argv[1])
+        if option == 1:
+            title_screen = TitleScreenFrame(self)
+            title_screen.pack()
+        elif option == 2:
+            database_tool = DatabaseToolFrame(self)
+            database_tool.pack()
+        elif option == 3:
+            question_display_frame = QuestionDisplayFrame(self)
+            question_display_frame.pack()
 
 if __name__ == "__main__":
     app = TrivialPurfuitApp()
     app.mainloop()
 
 
+# this is some template code for switching between frames
 """
     def __init__(self, *args, **kwargs):
         
