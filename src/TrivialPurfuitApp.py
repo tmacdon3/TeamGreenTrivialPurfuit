@@ -3,6 +3,7 @@
 """
 
 from DatabaseToolFrame import DatabaseToolFrame
+from StateManager import StateManager
 import sys
 import tkinter as tk
 from TitleScreenFrame import TitleScreenFrame
@@ -15,18 +16,18 @@ class TrivialPurfuitApp(tk.Tk):
         """
         tk.Tk.__init__(self)
 
-        #self.geometry("1024x768")
+        # window resolution
+        # self.geometry("1024x768")
 
-        option = int(sys.argv[1])
-        if option == 1:
-            title_screen = TitleScreenFrame(self)
-            title_screen.pack()
-        elif option == 2:
-            database_tool = DatabaseToolFrame(self)
-            database_tool.pack()
-        elif option == 3:
-            question_display_frame = QuestionDisplayFrame(self)
-            question_display_frame.pack()
+        self.state_manager = StateManager(self)
+
+        self.active_frame = TitleScreenFrame(self, self.state_manager)
+        self.active_frame.pack()
+
+    def switch_frame(self, new_frame):
+        self.active_frame.destroy()
+        self.active_frame = new_frame
+        self.active_frame.pack()
 
 if __name__ == "__main__":
     app = TrivialPurfuitApp()

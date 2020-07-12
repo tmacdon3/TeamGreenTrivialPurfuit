@@ -3,6 +3,7 @@
 """
 
 import os
+from State import State
 import sys
 import tkinter as tk
     
@@ -15,15 +16,15 @@ LABEL_BG = "#e9c46a"
 EXTRA_BG = "#f4a261"
 EXTRA2_BG = "#e76f51"
 
-
 CATEGORIES = ["Category_1", "Category_2", "Category_3", "Category_4"]
 
 class DatabaseToolFrame(tk.Frame):
 
-    def __init__(self, master):
+    def __init__(self, master, state_manager):
         """
         """
         tk.Frame.__init__(self, bg=FRAME_BG)
+        self.state_manager = state_manager
         
         lbl_database_tool = tk.Label(master=self, font=("Verdana", 44), bg=LABEL_BG, text="Database Tool")
         btn_restore_defaults = tk.Button(master=self, text="Restore Defaults", bg=BUTTON_BG, command=self.restore_defaults_btn_command)
@@ -72,11 +73,6 @@ class DatabaseToolFrame(tk.Frame):
 
         btn_back.grid(row=11, column=0, padx=x_padding, pady=y_padding)
 
-    def back_btn_command(self):
-        """
-        """
-        print("Back Button")
-
     def add_item_btn_command(self):
         """
         """
@@ -96,3 +92,9 @@ class DatabaseToolFrame(tk.Frame):
         """
         """
         print("Change category color")
+
+    def back_btn_command(self):
+        """
+        """
+        print("Back Button")
+        self.state_manager.transition_state(State.title_screen)

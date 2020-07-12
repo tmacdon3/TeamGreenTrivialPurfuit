@@ -15,10 +15,11 @@ EXTRA2_BG = "#e76f51"
 
 class QuestionDisplayFrame(tk.Frame):
 
-    def __init__(self, master):
+    def __init__(self, master, state_manager):
         """
         """
         tk.Frame.__init__(self, master=master, bg="#264653")
+        self.state_manager = state_manager
 
         lbl_question_header = tk.Label(master=self, font=("Verdana", 44), bg=LABEL_BG, text="Question")
         lbl_time_limit = tk.Label(master=self, bg=LABEL_BG, text="Time Display")

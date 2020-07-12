@@ -1,4 +1,9 @@
+"""
+@author: Tyler MacDonald
+"""
+
 import os
+from State import State
 import sys
 import tkinter as tk
 
@@ -9,10 +14,12 @@ y_padding = 25
 
 class TitleScreenFrame(tk.Frame):
 
-    def __init__(self, master):
+    def __init__(self, master, state_manager):
         """
         """
         tk.Frame.__init__(self, master=master, bg="#264653")
+        self.state_manager = state_manager
+
         ## create first frame with team green icon
         path_to_logo="resources" + os.path.sep + "team-green-icon.png"
         team_green_logo_image = tk.PhotoImage(file=path_to_logo)
@@ -38,11 +45,13 @@ class TitleScreenFrame(tk.Frame):
         """
         """
         print("Database Tool")
+        self.state_manager.transition_state(State.database_tool)
 
     def new_game_btn_command(self):
         """
         """
         print("New Game")
+        self.state_manager.transition_state(State.gameplay)
 
     def quit_game_btn_command(self):
         """
