@@ -2,9 +2,9 @@
 @author: Tyler MacDonald
 """
 
+import os
 from PIL import Image
 from PIL.ImageTk import PhotoImage
-import os
 from State import State
 import sys
 import tkinter as tk
