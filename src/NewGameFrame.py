@@ -28,7 +28,7 @@ class NewGameFrame(tk.Frame):
 
         lbl_choose_number_of_players = tk.Label(master=self, bg=LABEL_BG, text="Choose Number of Players:")
         lbx_number_of_players = tk.Listbox(master=self, height=4)
-        for option in ["1", "2", "3", "4"]:
+        for option in ["2", "3", "4"]:
                 lbx_number_of_players.insert(tk.END, option)
 
         btn_start_game = tk.Button(master=self, bg=BUTTON_BG, text="Start Game", command=self.start_game_btn_command)
