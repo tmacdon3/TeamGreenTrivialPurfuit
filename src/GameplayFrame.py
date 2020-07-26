@@ -7,7 +7,9 @@ import random
 from State import State
 import sys
 import tkinter as tk
-    
+import tkinter.ttk as ttk
+
+
 x_padding = 25
 y_padding = 10
 
@@ -19,12 +21,12 @@ EXTRA2_BG = "#e76f51"
 
 CATEGORIES = ["Category_1", "Category_2", "Category_3", "Category_4"]
 
-class GameplayFrame(tk.Frame):
+class GameplayFrame(ttk.Frame):
 
     def __init__(self, master, state_manager):
         """
         """
-        tk.Frame.__init__(self, bg=FRAME_BG)
+        ttk.Frame.__init__(self)
         self.state_manager = state_manager
 
         # initialize matrix of cell types
@@ -41,7 +43,7 @@ class GameplayFrame(tk.Frame):
 
                     # create button
                     color = self.get_cell_color(cell_type)
-                    btn_cell = tk.Button(master=self, width=6, height=3, bg=color)
+                    btn_cell = ttk.Button(master=self)
 
                     # layout button
                     btn_cell.grid(row=row, column=column)
@@ -51,25 +53,25 @@ class GameplayFrame(tk.Frame):
             matrix.append(new_row)
 
         # title screen button
-        btn_title_screen = tk.Button(master=self, bg=BUTTON_BG, text="Title Screen", command=self.title_screen_btn_command)
+        btn_title_screen = ttk.Button(master=self, text="Title Screen", command=self.title_screen_btn_command)
         btn_title_screen.grid(row=rows, column=0, columnspan=2, sticky="W")
 
         # player labels
-        lbl_player_1 = tk.Label(master=self, text="Player 1 Display", bg=LABEL_BG)
-        lbl_player_2 = tk.Label(master=self, text="Player 2 Display", bg=LABEL_BG)
-        lbl_player_3 = tk.Label(master=self, text="Player 3 Display", bg=LABEL_BG)
-        lbl_player_4 = tk.Label(master=self, text="Player 4 Display", bg=LABEL_BG)
+        lbl_player_1 = ttk.Label(master=self, text="Player 1 Display")
+        lbl_player_2 = ttk.Label(master=self, text="Player 2 Display")
+        lbl_player_3 = ttk.Label(master=self, text="Player 3 Display")
+        lbl_player_4 = ttk.Label(master=self, text="Player 4 Display")
         lbl_player_1.grid(row=rows, column=1, columnspan=3)
         lbl_player_2.grid(row=rows, column=4, columnspan=3)
         lbl_player_3.grid(row=rows, column=7, columnspan=3)
         lbl_player_4.grid(row=rows, column=10, columnspan=3)
 
         # roll dice button
-        btn_roll_dice = tk.Button(master=self, bg=BUTTON_BG, text="Roll Dice", command=self.roll_dice_btn_command)
+        btn_roll_dice = ttk.Button(master=self, text="Roll Dice", command=self.roll_dice_btn_command)
         btn_roll_dice.grid(row=9, column=9, columnspan=2)
 
         # question button
-        btn_question = tk.Button(master=self, bg=BUTTON_BG, text="Question", command=self.question_btn_command)
+        btn_question = ttk.Button(master=self, text="Question", command=self.question_btn_command)
         btn_question.grid(row=10, column=9, columnspan=2)
 
     def get_cell_color(self, cell_type):
