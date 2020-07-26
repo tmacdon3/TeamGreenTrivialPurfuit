@@ -78,25 +78,25 @@ class DatabaseToolFrame(tk.Frame):
         """
         """
         print("DatabaseToolFrame: Sending Add Item Request to DatabaseInterface")
-        self.database_interface.add_item()
+        self.database_interface.add_question_answer("question", "answer", "category")
 
     def remove_item_btn_command(self):
         """
         """
         print("DatabaseToolFrame: Sending Remove Item Request to DatabaseInterface")
-        self.database_interface.remove_item()
+        self.database_interface.remove_question_answer("question")
 
     def restore_defaults_btn_command(self):
         """
         """
         print("DatabaseToolFrame: Sending Get All Request to DatabaseInterface")
-        self.database_interface.get_all()
+        self.database_interface.get_all_question_answers()
 
     def change_category_color_btn_command(self):
         """
         """
         print("DatabaseToolFrame: Sending Change Category Request to DatabaseInterface")
-        self.database_interface.change_category_color()
+        self.database_interface.change_category_color("category", "color")
 
     def back_btn_command(self):
         """

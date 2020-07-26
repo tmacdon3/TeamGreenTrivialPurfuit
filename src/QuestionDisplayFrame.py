@@ -78,7 +78,7 @@ class QuestionDisplayFrame(tk.Frame):
         """
         """
         print("QuestionDisplayFrame: Sending Request for Questions and Answers to DatabaseInterface")
-        self.database_interface.get_question_and_answers()
+        self.database_interface.get_question_answer_quadruplet("test")
 
     def confirm_btn_command(self):
         """
