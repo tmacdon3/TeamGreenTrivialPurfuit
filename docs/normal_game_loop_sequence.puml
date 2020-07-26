@@ -1,0 +1,33 @@
+@startuml
+
+title Normal Game Loop
+
+Actor User
+
+User --> GamePlayFrame : Roll dice
+GamePlayFrame --> GameLogic : Request random number
+GameLogic --> GamePlayFrame : Random number
+GamePlayFrame --> User : Display dice roll
+User --> CellButton : Click cell to move to
+CellButton --> GamePlayFrame : Category
+GamePlayFrame --> GameLogic : Category
+GameLogic --> QuestionManager : Category
+QuestionManager --> DB : Request question and 4 answers
+DB --> QuestionManager : Questions/Answers
+QuestionManager --> GameLogic : Reference
+GameLogic --> QuestionDisplayFrame : QuestionManager reference
+QuestionDisplayFrame --> User : Questions and answers
+User --> QuestionDisplayFrame : Click Answer
+QuestionDisplayFrame --> QuestionManager : Selected Answer
+QuestionManager --> QuestionDisplayFrame : Correct/Incorrect
+QuestionDisplayFrame --> User : Display Correct/Incorrect
+User --> QuestionDisplayFrame : Hit Continue Button
+QuestionDisplayFrame --> GameLogic : Correct/Incorrect
+GameLogic --> Player : Update Wedge Count
+Player --> GameLogic : New Wedge Count
+GameLogic --> GamePlayFrame : New Player Wedge Count
+GamePlayFrame --> User : Updated Wedge Display
+
+
+
+@enduml

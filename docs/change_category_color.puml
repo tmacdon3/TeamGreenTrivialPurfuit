@@ -1,0 +1,14 @@
+@startuml
+
+title Change Category Color
+
+Actor User1
+
+User1 --> DatabaseToolFrame : Select category, select color, and hit update button
+DatabaseToolFrame --> DatabaseInterface : Category/Color
+DatabaseInterface --> DB : Update Query
+DB --> DatabaseInterface : Status Message
+DatabaseInterface --> DatabaseToolFrame : Status Message
+DatabaseToolFrame --> User1 : Status Message
+
+@enduml
