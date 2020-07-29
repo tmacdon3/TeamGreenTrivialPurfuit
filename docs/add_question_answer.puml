@@ -1,0 +1,14 @@
+@startuml
+
+title Add Question/Answer
+
+Actor User1
+
+User1 --> DatabaseToolFrame : Input question/answer/category and hit Add button
+DatabaseToolFrame --> DatabaseInterface : Question/Answer/Category
+DatabaseInterface --> DB : Insert Query
+DB --> DatabaseInterface : Status Message
+DatabaseInterface --> DatabaseToolFrame : Status Message
+DatabaseToolFrame --> User1 : Status Message
+
+@enduml

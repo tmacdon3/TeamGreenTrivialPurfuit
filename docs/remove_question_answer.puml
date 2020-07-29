@@ -1,0 +1,14 @@
+@startuml
+
+title Remove Question/Answer
+
+Actor User1
+
+User1 --> DatabaseToolFrame : Select Question/Answer and hit Remove button
+DatabaseToolFrame --> DatabaseInterface : Question/Answer
+DatabaseInterface --> DB : Delete Query
+DB --> DatabaseInterface : Status Message
+DatabaseInterface --> DatabaseToolFrame : Status Message
+DatabaseToolFrame --> User1 : Status Message
+
+@enduml

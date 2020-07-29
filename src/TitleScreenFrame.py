@@ -8,6 +8,7 @@ from PIL.ImageTk import PhotoImage
 from State import State
 import sys
 import tkinter as tk
+import tkinter.ttk as ttk
 
 LARGE_FONT= ("Verdana", 12)
 
@@ -20,28 +21,27 @@ LABEL_BG = "#e9c46a"
 EXTRA_BG = "#f4a261"
 EXTRA2_BG = "#e76f51"
 
-class TitleScreenFrame(tk.Frame):
+class TitleScreenFrame(ttk.Frame):
 
     def __init__(self, master, state_manager):
         """
         """
-        tk.Frame.__init__(self, master=master, bg=FRAME_BG)
+        ttk.Frame.__init__(self, master=master)
         self.state_manager = state_manager
 
         ## create first frame with team green icon
         path_to_logo="resources" + os.path.sep + "team-green-icon.png"
         #team_green_logo_image = tk.PhotoImage(file=path_to_logo)
         team_green_logo_image = self._load_image(path_to_logo)
-        lbl_team_green_logo = tk.Label(master=self, image=team_green_logo_image)
         lbl_team_green_logo.img = team_green_logo_image
 
         ## create second frame with buttons
-        btn_new_game = tk.Button(master=self, text="New Game", command=self.new_game_btn_command, bg=BUTTON_BG)
-        btn_database_tool = tk.Button(master=self, text="Database Tool", command=self.database_tool_btn_command, bg=BUTTON_BG)
-        btn_quit_game = tk.Button(master=self, text="Quit Game", command=self.quit_game_btn_command, bg=BUTTON_BG)
+        btn_new_game = ttk.Button(master=self, text="New Game", command=self.new_game_btn_command)
+        btn_database_tool = ttk.Button(master=self, text="Database Tool", command=self.database_tool_btn_command)
+        btn_quit_game = ttk.Button(master=self, text="Quit Game", command=self.quit_game_btn_command)
 
         ## create third title frame
-        lbl_game_title = tk.Label(master=self, font=("Verdana", 44), bg=LABEL_BG, text="Welcome to Trivial Purfuit")
+        lbl_game_title = ttk.Label(master=self, font=("Verdana", 44), text="Welcome to Trivial Purfuit")
 
         # layout properly
         lbl_game_title.grid(row=0, column=0, columnspan=2, padx=x_padding, pady=y_padding)

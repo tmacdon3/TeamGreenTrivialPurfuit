@@ -1,0 +1,14 @@
+@startuml
+
+title Restore Defaults
+
+Actor User1
+
+User1 --> DatabaseToolFrame : Hit Restore Defaults Button
+DatabaseToolFrame --> DatabaseInterface : Get all messages
+DatabaseInterface --> DB : Select * Query
+DB --> DatabaseInterface : Result Set
+DatabaseInterface --> DatabaseToolFrame : Formatted Result Set
+DatabaseToolFrame --> User1 : All question/answer/category display
+
+@enduml

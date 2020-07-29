@@ -14,27 +14,31 @@ class DatabaseInterface():
         """
         pass
 
-    def add_item(self):
+    def add_question_answer(self, question, answer, category):
         """
         """
         print("DatabaseInterface: Received Request to Add Item")
 
-    def remove_item(self):
+    def remove_question_answer(self, question):
         """
         """
         print("DatabaseInterface: Received Request to Remove Item")
 
-    def get_all(self):
+    def get_all_question_answers(self):
         """
+
+        Return list of {'question': x, 'answer': x, 'category': x}
         """
         print("DatabaseInterface: Received Request to Get All")
 
-    def change_category_color(self):
+    def change_category_color(self, category, color):
         """
         """
         print("DatabaseInterface: Received Request to Change Category Color")
 
-    def get_question_and_answers(self):
+    def get_question_answer_quadruplet(self, category):
         """
+
+        Return list of {'question': x, 'correct_answer': x, 'random_answers': []}
         """
         print("DatabaseInterface: Received Request to Get Questions and Answers")

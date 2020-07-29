@@ -1,0 +1,33 @@
+@startuml
+
+title End Game No Win
+
+Actor User2
+Actor User1
+
+User1 --> GamePlayFrame : Roll Dice
+GamePlayFrame --> GameLogic : Request random number
+GameLogic --> GamePlayFrame : Random number
+GamePlayFrame --> User1 : Dice Roll
+User1 --> CellButton : User1 Selects Cell Button
+CellButton --> GamePlayFrame : Category
+GamePlayFrame --> GameLogic : Category
+GameLogic --> GamePlayFrame : Notify Random User
+GamePlayFrame --> User2 : Choose a category
+User2 --> GamePlayFrame : Category choice
+GamePlayFrame --> GameLogic : Category choice
+GameLogic --> QuestionManager : Category
+QuestionManager --> DB : Request question and 4 answers
+DB --> QuestionManager : Questions/Answers
+QuestionManager --> GameLogic : Reference
+GameLogic --> QuestionDisplayFrame : QuestionManager reference
+QuestionDisplayFrame --> User : Questions and answers
+User --> QuestionDisplayFrame : Click Answer
+QuestionDisplayFrame --> QuestionManager : Selected Answer
+QuestionManager --> QuestionDisplayFrame : Incorrect
+QuestionDisplayFrame --> User : Display Incorrect
+User --> QuestionDisplayFrame : Hit Continue Button
+QuestionDisplayFrame --> GameLogic : Incorrect
+GameLogic --> GamePlayFrame : Next turn
+
+@enduml

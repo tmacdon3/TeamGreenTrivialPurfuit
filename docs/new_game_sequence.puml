@@ -1,0 +1,19 @@
+@startuml
+
+title New Game
+
+Actor User
+
+User --> NewGameFrame : New Game
+NewGameFrame --> User : Select Number of Players
+User --> NewGameFrame : Number of Players
+NewGameFrame --> GameLogic : Number of Players
+GameLogic --> DB : Query Category Colors
+DB --> GameLogic : Category Colors
+GameLogic --> NewGameFrame : Reference
+NewGameFrame --> GamePlayFrame : GameLogic reference
+GamePlayFrame --> GameLogic : Request cell matrix
+GameLogic --> GamePlayFrame : Cell matrix
+GamePlayFrame --> User : Display Game board
+
+@enduml

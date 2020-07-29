@@ -6,6 +6,7 @@ import os
 from State import State
 import sys
 import tkinter as tk
+import tkinter.ttk as ttk
 
 x_padding = 25
 y_padding = 25
@@ -16,27 +17,27 @@ LABEL_BG = "#e9c46a"
 EXTRA_BG = "#f4a261"
 EXTRA2_BG = "#e76f51"
 
-class QuestionDisplayFrame(tk.Frame):
+class QuestionDisplayFrame(ttk.Frame):
 
     def __init__(self, master, state_manager, database_interface):
         """
         """
-        tk.Frame.__init__(self, master=master, bg=FRAME_BG)
+        ttk.Frame.__init__(self, master=master)
         self.state_manager = state_manager
         self.database_interface = database_interface
 
         self.get_questions_and_answers()
 
-        lbl_question_header = tk.Label(master=self, font=("Verdana", 44), bg=LABEL_BG, text="Question")
-        lbl_time_limit = tk.Label(master=self, bg=LABEL_BG, text="Time Display")
+        lbl_question_header = ttk.Label(master=self, font=("Verdana", 44), text="Question")
+        lbl_time_limit = ttk.Label(master=self, text="Time Display")
 
-        lbl_question_display = tk.Label(master=self, bg=LABEL_BG, text="Question from Database")
-        self.btn_answer_one = tk.Button(master=self, bg=BUTTON_BG, text="Answer One", command=self.highlight_question_one)
-        self.btn_answer_two = tk.Button(master=self, bg=BUTTON_BG, text="Answer Two", command=self.highlight_question_two)
-        self.btn_answer_three = tk.Button(master=self, bg=BUTTON_BG, text="Answer Three", command=self.highlight_question_three)
-        self.btn_answer_four = tk.Button(master=self, bg=BUTTON_BG, text="Answer Four", command=self.highlight_question_four)
+        lbl_question_display = ttk.Label(master=self, text="Question from Database")
+        self.btn_answer_one = ttk.Button(master=self, text="Answer One", command=self.highlight_question_one)
+        self.btn_answer_two = ttk.Button(master=self, text="Answer Two", command=self.highlight_question_two)
+        self.btn_answer_three = ttk.Button(master=self, text="Answer Three", command=self.highlight_question_three)
+        self.btn_answer_four = ttk.Button(master=self, text="Answer Four", command=self.highlight_question_four)
 
-        btn_confirm = tk.Button(master=self, bg=BUTTON_BG, text="Confirm", command=self.confirm_btn_command)
+        btn_confirm = ttk.Button(master=self, text="Confirm", command=self.confirm_btn_command)
 
         # configure layout stuff
         lbl_question_header.grid(row=0, column=0, padx=x_padding, pady=y_padding)
@@ -78,7 +79,7 @@ class QuestionDisplayFrame(tk.Frame):
         """
         """
         print("QuestionDisplayFrame: Sending Request for Questions and Answers to DatabaseInterface")
-        self.database_interface.get_question_and_answers()
+        self.database_interface.get_question_answer_quadruplet("test")
 
     def confirm_btn_command(self):
         """
