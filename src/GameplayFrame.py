@@ -93,6 +93,7 @@ class GameplayFrame(tk.Frame):
     def roll_dice_btn_command(self):
         """
         """
+        
         print("GameplayFrame: Roll Dice")
 
     def title_screen_btn_command(self):

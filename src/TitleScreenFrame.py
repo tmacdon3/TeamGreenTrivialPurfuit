@@ -6,6 +6,8 @@ import os
 from State import State
 import sys
 import tkinter as tk
+from PIL import Image
+from PIL.ImageTk import PhotoImage
 
 LARGE_FONT= ("Verdana", 12)
 
@@ -28,7 +30,7 @@ class TitleScreenFrame(tk.Frame):
 
         ## create first frame with team green icon
         path_to_logo="resources" + os.path.sep + "team-green-icon.png"
-        team_green_logo_image = tk.PhotoImage(file=path_to_logo)
+        team_green_logo_image = self._load_image(path_to_logo)
         lbl_team_green_logo = tk.Label(master=self, image=team_green_logo_image)
         lbl_team_green_logo.img = team_green_logo_image
 
@@ -46,6 +48,12 @@ class TitleScreenFrame(tk.Frame):
         btn_new_game.grid(row=1, column=1, padx=x_padding, pady=y_padding)
         btn_database_tool.grid(row=2, column=1, padx=x_padding, pady=y_padding)
         btn_quit_game.grid(row=3, column=1, padx=x_padding, pady=y_padding)
+
+    def _load_image(self, path_to_image):
+        """
+        """
+        image = Image.open(path_to_image)
+        return PhotoImage(image)
 
     def database_tool_btn_command(self):
         """

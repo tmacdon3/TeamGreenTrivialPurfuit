@@ -36,6 +36,11 @@ class DatabaseInterface():
         """
         print("DatabaseInterface: Received Request to Change Category Color")
 
+    def get_category_colors(self):
+        """
+        """
+        print("DatabaseInterface: Received Request to Get Category Colors")
+
     def get_question_answer_quadruplet(self, category):
         """
 
