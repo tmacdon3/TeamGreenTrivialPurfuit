@@ -28,6 +28,7 @@ class GameplayFrame(tk.Frame):
         self.game_logic = GameLogic()
         tk.Frame.__init__(self, bg=FRAME_BG)
         self.state_manager = state_manager
+        
 
         # initialize matrix of cell types
         cell_btn_list = []

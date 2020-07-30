@@ -46,6 +46,6 @@ class NewGameFrame(tk.Frame):
         """
         """
         print("NewGameFrame: Sending State Transition Request to StateManager")
-        self.num_players = 4
-        self.game_logic.player_order(self.num_players)
+        num_players = 4
+        self.game_logic.player_order(num_players)
         self.state_manager.transition_state(State.gameplay)

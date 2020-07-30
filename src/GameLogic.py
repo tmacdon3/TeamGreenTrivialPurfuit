@@ -3,15 +3,17 @@
 """
 import random
 import numpy as np
-import re
 from State import State
 from DatabaseInterface import DatabaseInterface
+
 
 class GameLogic():
     def __init__(self,
                 ):
   
+        
         self.database_interface = DatabaseInterface()
+        
         
     def new_game(self,
                 ): 
@@ -42,10 +44,10 @@ class GameLogic():
                     # # add to button list
                     # cell_btn_list.append(btn_cell)
             self.matrix.append(new_row)
-        for i in self.matrix:
-            print(i)
-            for j in self.matrix:
-                print(j)
+        # for i in self.matrix:
+        #     print(i)
+        #     for j in self.matrix:
+        #         print(j)
 
         
 
@@ -59,25 +61,26 @@ class GameLogic():
         for i in range(self.num_players):
             self.order[i] = self.roll_die()
         self.max = self.order.argmax()
+
         pattern = "Player" + str(self.max+1)
         print(pattern + " goes first")
-        players = ["Player1, Player2, Player3, Player4"]
+        players = ["Player1", "Player2", "Player3", "Player4"]
 
         for i in range(num_players):
             if pattern == players[i]:
+                temp = players[0]
                 players[0] = players[i]
-                pattern = players[0]
-        print(players)
+                players[i] = temp
+        self.player_list = players[0:num_players]
+        print(self.player_list)
 
-        
+    def get_player_order(self):
+        return self.player_list        
     
     def get_matrix(self):
         return self.matrix
 
-    """
-    add getter for player turn
-    
-    """
+
 
 class Player():
     def __init__(self,
