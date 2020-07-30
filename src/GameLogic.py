@@ -2,22 +2,20 @@
 @author: Joseph Aulds
 """
 import random
+import numpy as np
+import re
 from State import State
 from DatabaseInterface import DatabaseInterface
-
-import numpy as np
 
 class GameLogic():
     def __init__(self,
                 ):
   
-        """
-        """
-        pass
+        self.database_interface = DatabaseInterface()
         
     def new_game(self,
                 ): 
-        self.database_interface = DatabaseInterface()
+        
 
         # self.category_colors = 
         self.database_interface.get_category_colors()
@@ -26,7 +24,7 @@ class GameLogic():
         # cell_btn_list = []
         rows = 13
         columns = 13
-        matrix = []
+        self.matrix = []
         for row in range(rows):
             new_row = []
             for column in range(columns):
@@ -43,10 +41,10 @@ class GameLogic():
 
                     # # add to button list
                     # cell_btn_list.append(btn_cell)
-            matrix.append(new_row)
-        for i in matrix:
+            self.matrix.append(new_row)
+        for i in self.matrix:
             print(i)
-            for j in matrix:
+            for j in self.matrix:
                 print(j)
 
         
@@ -61,7 +59,25 @@ class GameLogic():
         for i in range(self.num_players):
             self.order[i] = self.roll_die()
         self.max = self.order.argmax()
-        print("Player" + str(self.max + 1) + " goes first")
+        pattern = "Player" + str(self.max+1)
+        print(pattern + " goes first")
+        players = ["Player1, Player2, Player3, Player4"]
+
+        for i in range(num_players):
+            if pattern == players[i]:
+                players[0] = players[i]
+                pattern = players[0]
+        print(players)
+
+        
+    
+    def get_matrix(self):
+        return self.matrix
+
+    """
+    add getter for player turn
+    
+    """
 
 class Player():
     def __init__(self,

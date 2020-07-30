@@ -7,6 +7,7 @@ import random
 from State import State
 import sys
 import tkinter as tk
+from GameLogic import GameLogic
     
 x_padding = 25
 y_padding = 10
@@ -24,6 +25,7 @@ class GameplayFrame(tk.Frame):
     def __init__(self, master, state_manager):
         """
         """
+        self.game_logic = GameLogic()
         tk.Frame.__init__(self, bg=FRAME_BG)
         self.state_manager = state_manager
 
@@ -94,6 +96,7 @@ class GameplayFrame(tk.Frame):
         """
         """
         
+        print(self.game_logic.roll_die())
         print("GameplayFrame: Roll Dice")
 
     def title_screen_btn_command(self):
