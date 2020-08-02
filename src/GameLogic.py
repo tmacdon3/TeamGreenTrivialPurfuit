@@ -84,8 +84,7 @@ class GameLogic():
         self.update_position("p1", (5, 15))
         self.update_score("p1", "ac")
         self.update_score("p2", "acbd")
-        print(self.p1.get_position())
-        print(self.p2.get_position())
+        print(self.get_all_players_positions())
         print(self.get_all_players_scores())
 
 
@@ -144,6 +143,9 @@ class GameLogic():
     
     def get_all_players_scores(self):
         return self.p1.get_score(), self.p2.get_score(), self.p3.get_score(), self.p4.get_score()
+
+    def get_all_players_positions(self):
+        return self.p1.get_position(), self.p2.get_position(), self.p3.get_position(), self.p4.get_position()
 
 
 # This class shall be instantiated x number of times, where x is the number of players
