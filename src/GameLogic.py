@@ -181,3 +181,9 @@ if __name__ == "__main__":
         gl.player_turn()
         print(gl.get_next_player())
     print(gl.get_player_order())
+
+    score = "bcda"
+    if "a" in score and "b" in score and "c" in score and "d" in score:
+        print("FOUND string!!")
+    else:
+        print("Didn't find string... :(")
