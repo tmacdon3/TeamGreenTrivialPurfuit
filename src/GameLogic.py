@@ -82,8 +82,11 @@ class GameLogic():
 
         self.update_position("p2", (9,19))
         self.update_position("p1", (5, 15))
+        self.update_score("p1", "ac")
+        self.update_score("p2", "acbd")
         print(self.p1.get_position())
         print(self.p2.get_position())
+        print(self.get_all_players_scores())
 
 
     # Update player position
@@ -96,6 +99,26 @@ class GameLogic():
             self.p3.set_position(new_position)
         elif player == "p4":
             self.p4.set_position(new_position)
+
+    """
+    Score is updated as follows:
+    a = "Declaration of Independence and Continental Congress"
+    b = "people"
+    c = "events"
+    d = "places"
+
+    for instance if a player had correctly answered people and places,
+    their score would be "bd"
+    """
+    def update_score(self, player, new_score):
+        if player == "p1":
+            self.p1.set_score(new_score)
+        elif player == "p2":
+            self.p2.set_score(new_score)
+        elif player == "p3":
+            self.p3.set_score(new_score)
+        elif player == "p4":
+            self.p4.set_score(new_score)     
 
             
     # Determines which player shall go next.
@@ -118,6 +141,9 @@ class GameLogic():
     # Returns the play whose turn is next
     def get_next_player(self):
         return self.next_player
+    
+    def get_all_players_scores(self):
+        return self.p1.get_score(), self.p2.get_score(), self.p3.get_score(), self.p4.get_score()
 
 
 # This class shall be instantiated x number of times, where x is the number of players
@@ -125,7 +151,7 @@ class GameLogic():
 class Player(GameLogic):
     def __init__(self):
              self.position = (0,0)
-             self.score = 0
+             self.score = ""
 
     def set_position(self, new_position):
         self.position = new_position
