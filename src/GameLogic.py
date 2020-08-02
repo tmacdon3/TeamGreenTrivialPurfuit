@@ -14,17 +14,17 @@ class GameLogic():
         self.player_iterator = 0
         self.next_player = ""
         self.database_interface = DatabaseInterface()
+        self.matrix = []
         
-        
+    # This method generates the matrix for the gameboard 
     def new_game(self):   
         # self.category_colors = 
         self.database_interface.get_category_colors()
 
-        # initialize matrix of cell types
+        # initialize self.matrix of cell types
         # cell_btn_list = []
         rows = 13
         columns = 13
-        self.matrix = []
         for row in range(rows):
             new_row = []
             for column in range(columns):
@@ -48,10 +48,11 @@ class GameLogic():
         #         print(j)
 
         
-
+    # This method rolls the die for choosing who goes first and for gameplay
     def roll_die(self):
         return random.randint(1,6)
 
+    # This method determines who shall go first, and then update the player list for next player
     def player_order(self, 
                     num_players):
         self.num_players = num_players
@@ -73,16 +74,31 @@ class GameLogic():
         
         #initialize player classes for the number of players
         # for i, player in enumerate(self.player_list):
-        """
-        @TODO dynamically make the correct number of player class instances :(
-        """
+
+        self.p1 = Player()
+        self.p2 = Player()
+        self.p3 = Player()
+        self.p4 = Player()
+
+        self.update_position("p2", (9,19))
+        self.update_position("p1", (5, 15))
+        print(self.p1.get_position())
+        print(self.p2.get_position())
+
+
+    # Update player position
+    def update_position(self, player, new_position):
+        if player == "p1":
+            self.p1.set_position(new_position)
+        elif player == "p2":
+            self.p2.set_position(new_position)
+        elif player == "p3":
+            self.p3.set_position(new_position)
+        elif player == "p4":
+            self.p4.set_position(new_position)
+
             
-
-        
-            
-
-
-
+    # Determines which player shall go next.
     def player_turn(self):    
         if (self.player_iterator + 1) >= self.num_players:
             self.player_iterator = 0
@@ -91,20 +107,24 @@ class GameLogic():
             self.player_iterator += 1
             self.next_player = self.player_list[self.player_iterator]
 
+    # Returns the list of player order
     def get_player_order(self):
         return self.player_list        
     
+    # Returns the gameplay matrix
     def get_matrix(self):
         return self.matrix
 
+    # Returns the play whose turn is next
     def get_next_player(self):
         return self.next_player
 
 
+# This class shall be instantiated x number of times, where x is the number of players
 
-class Player():
+class Player(GameLogic):
     def __init__(self):
-             self.position = [0][0]
+             self.position = (0,0)
              self.score = 0
 
     def set_position(self, new_position):
