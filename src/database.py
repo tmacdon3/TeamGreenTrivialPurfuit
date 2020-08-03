@@ -310,12 +310,36 @@ class Database():
             sql = """
                 DELETE FROM {q_tbl}
                 WHERE question_text = '{question}'
-                AND question_id <> 0 ;
+                AND question_id <> 0
             """.format(
                 q_tbl=q_tbl,
                 question=question,
             )
             cur.execute(sql)
             self.close_db_connection(conn)
+        except (Exception, mysql.connector.Error) as error:
+            print(error)
+
+    def get_category_colors(self):
+        """
+
+        """
+
+        try:
+            conn = self.get_db_connection()
+            cur = conn.cursor()
+            sql = dc.USE_DB
+            cur.execute(sql)
+            sql = """
+                SELECT category_name, category_color
+                FROM categories
+            """
+            cur.execute(sql)
+            records = cur.fetchall()
+            results = {}
+            for record in records:
+                results[record[0]] = record[1]
+            self.close_db_connection(conn)
+            return results
         except (Exception, mysql.connector.Error) as error:
             print(error)

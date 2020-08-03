@@ -53,4 +53,4 @@ class DatabaseInterface():
         """
         """
         print("DatabaseInterface: Received Request to get category color.")
-        return self.db.get_question_answer_quadruplet('people')
+        return self.db.get_category_colors()

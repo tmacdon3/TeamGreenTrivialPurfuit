@@ -14,6 +14,7 @@ def main():
     # db.change_category_color('people', 'yellow')
     # db.add_question_answer('sup','supper','people')
     # db.remove_question_answer('sup', 'people')
+    # print(db.get_category_colors())
 
 
 
