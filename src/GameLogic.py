@@ -18,8 +18,8 @@ class GameLogic():
         
     # This method generates the matrix for the gameboard 
     def new_game(self):   
-        # self.category_colors = 
-        self.database_interface.get_category_colors()
+        self.category_colors = self.database_interface.get_category_colors()
+        print(self.category_colors)
 
         # initialize self.matrix of cell types
         # cell_btn_list = []
