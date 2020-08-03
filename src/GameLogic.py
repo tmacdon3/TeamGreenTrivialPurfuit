@@ -18,8 +18,7 @@ class GameLogic():
         
     # This method generates the matrix for the gameboard 
     def new_game(self):   
-        self.category_colors = self.database_interface.get_category_colors()
-        print(self.category_colors)
+        print(self.get_category_colors())
 
         # initialize self.matrix of cell types
         # cell_btn_list = []
@@ -140,6 +139,10 @@ class GameLogic():
     # Returns the play whose turn is next
     def get_next_player(self):
         return self.next_player
+
+    def get_category_colors(self):
+        self.category_colors = self.database_interface.get_category_colors()
+        return self.category_colors
     
     def get_all_players_scores(self):
         return self.p1.get_score(), self.p2.get_score(), self.p3.get_score(), self.p4.get_score()
