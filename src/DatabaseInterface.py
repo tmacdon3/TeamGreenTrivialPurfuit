@@ -49,7 +49,7 @@ class DatabaseInterface():
         print("DatabaseInterface: Received Request to Get Questions and Answers")
         return db.get_question_answer_quadruplet('people')
 
-    def get_category colors(self):
+    def get_category_colors(self):
         """
         """
         print("DatabaseInterface: Received Request to get category color.")
