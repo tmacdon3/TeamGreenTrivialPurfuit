@@ -12,7 +12,7 @@ from QuestionDisplayFrame import QuestionDisplayFrame
 
 class TrivialPurfuitApp(tk.Tk):
 
-    def __init__(self):
+    def __init__(self, pw=""):
         """
         """
         tk.Tk.__init__(self)
@@ -23,7 +23,7 @@ class TrivialPurfuitApp(tk.Tk):
         # self.geometry("1024x768")
 
         self.state_manager = StateManager(self)
-        self.database_interface = DatabaseInterface()
+        self.database_interface = DatabaseInterface(pw)
 
         self.active_frame = TitleScreenFrame(self, self.state_manager)
         self.active_frame.pack()

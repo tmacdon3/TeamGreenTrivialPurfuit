@@ -10,11 +10,10 @@ from database import Database
 
 class DatabaseInterface():
 
-    def __init__(self):
+    def __init__(self, pw=""):
         """
         """
         # this is a test
-        pw = input("Enter MySQL root password (if applicable): ")
         self.db = Database("localhost", "root", pw)
 
     def add_question_answer(self, question, answer, category):
@@ -41,7 +40,7 @@ class DatabaseInterface():
         """
         """
         print("DatabaseInterface: Received Request to Change Category Color")
-        self.db.change_category_color('people', 'yellow')
+        self.db.change_category_color(category, color)
 
     def get_question_answer_quadruplet(self, category):
         """
