@@ -7,6 +7,7 @@ import random
 from State import State
 import sys
 import tkinter as tk
+from GameCell import GameCell
 from GameLogic import GameLogic
 from GameState import GameState
     
@@ -34,19 +35,28 @@ class GameplayFrame(tk.Frame):
         self.current_player = self.game_logic.get_next_player()
         self.current_die_roll = 0
 
+        self.center_row = 6
+        self.center_column = 6
+
         rows = len(self.game_logic.matrix)
+
+        print(self.game_logic.matrix)
         
-        # initialize matrix of cell types from game logic
-        self.cell_btn_list = []
+        # initialize matrix of GameCells from game logic
+        self.game_cell_matrix = []
         row_index = 0
         for row in self.game_logic.matrix:
             column_index = 0
+            row_list = []
             for value in row:
                 if value != -1:
-                    btn_cell = tk.Button(master=self, width=6, height=3, bg=self.get_cell_color(value))
+                    btn_cell = GameCell(game_frame=self, width=6, height=3, color=self.get_cell_color(value), row=row_index, column=column_index)
                     btn_cell.grid(row=row_index, column=column_index)
-                    self.cell_btn_list.append(btn_cell)
+                    row_list.append(btn_cell)
+                else:
+                    row_list.append(None)
                 column_index += 1
+            self.game_cell_matrix.append(row_list)
             row_index += 1
 
         # title screen button
@@ -76,6 +86,14 @@ class GameplayFrame(tk.Frame):
         self.msg_status.grid(row=8, column=2, columnspan=3, rowspan=3)
 
         self._update_status_display()
+        self._display_start_positions()
+
+    def _display_start_positions(self):
+        """
+        """
+        for k in self.game_logic.player_dict.keys():
+            self.game_logic.update_position(k, (self.center_row, self.center_column))
+            self._get_button(self.center_row, self.center_column).add_player(k)
 
     def _update_status_display(self):
         """
@@ -94,14 +112,22 @@ class GameplayFrame(tk.Frame):
 
         self.msg_status["text"] = status_message
 
+    def _get_button(self, row, column):
+        """
+        """
+        return self.game_cell_matrix[row][column]
+
     def get_cell_color(self, cell_type):
         return self.game_logic.get_category_color(cell_type)
 
     def question_btn_command(self):
         """
         """
-        print("GameplayFrame: Sending State Transition Request to StateManager")
-        self.state_manager.transition_state(State.question)
+        if self.game_state == GameState.answer_question:
+            print("GameplayFrame: Sending State Transition Request to StateManager")
+            self.state_manager.transition_state(State.question)
+        else:
+            print("Not the correct state to request a question")
 
     def roll_die_btn_command(self):
         """
@@ -113,6 +139,28 @@ class GameplayFrame(tk.Frame):
         else:
             print("Not the correct state to roll the die")
 
+    def button_was_clicked(self, row, column):
+        """
+        """
+        if self.game_state == GameState.choose_cell:
+            print("Button at [row={}, column={}] was clicked".format(row, column))
+
+            # get where current player is
+            pos = self.game_logic.get_player_position(self.current_player)
+            print(pos)
+
+            # remove current player from old cell
+            self._get_button(pos[0], pos[1]).remove_player(self.current_player)
+
+            # add player to new cell
+            self._get_button(row, column).add_player(self.current_player)
+            
+            # update game state and display
+            self.game_state = GameState.answer_question
+            self._update_status_display()
+        else:
+            print("Not the correct state to click a button")
+        
     def title_screen_btn_command(self):
         """
         """
