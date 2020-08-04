@@ -27,25 +27,25 @@ class NewGameFrame(tk.Frame):
         self.state_manager = master.state_manager
         self.game_logic = GameLogic(master.database_interface)
         self.game_logic.new_game()
-        lbl_new_game_header = tk.Label(master=self, font=("Verdana", 44), bg=LABEL_BG, text="New Game")
+        self.lbl_new_game_header = tk.Label(master=self, font=("Verdana", 44), bg=LABEL_BG, text="New Game")
 
-        lbl_choose_number_of_players = tk.Label(master=self, bg=LABEL_BG, text="Choose Number of Players:")
-        lbx_number_of_players = tk.Listbox(master=self, height=4)
+        self.lbl_choose_number_of_players = tk.Label(master=self, bg=LABEL_BG, text="Choose Number of Players:")
+        self.lbx_number_of_players = tk.Listbox(master=self, height=4)
         for option in ["2", "3", "4"]:
-                lbx_number_of_players.insert(tk.END, option)
+                self.lbx_number_of_players.insert(tk.END, option)
 
-        btn_start_game = tk.Button(master=self, bg=BUTTON_BG, text="Start Game", command=self.start_game_btn_command)
+        self.btn_start_game = tk.Button(master=self, bg=BUTTON_BG, text="Start Game", command=self.start_game_btn_command)
 
-        lbl_new_game_header.grid(row=0, column=0, columnspan=2, padx=x_padding, pady=y_padding)
-        lbl_choose_number_of_players.grid(row=1, column=0, padx=x_padding, pady=y_padding)
-        lbx_number_of_players.grid(row=1, column=1, padx=x_padding, pady=y_padding)
-        btn_start_game.grid(row=2, column=0, columnspan=2, padx=x_padding, pady=y_padding)
+        self.lbl_new_game_header.grid(row=0, column=0, columnspan=2, padx=x_padding, pady=y_padding)
+        self.lbl_choose_number_of_players.grid(row=1, column=0, padx=x_padding, pady=y_padding)
+        self.lbx_number_of_players.grid(row=1, column=1, padx=x_padding, pady=y_padding)
+        self.btn_start_game.grid(row=2, column=0, columnspan=2, padx=x_padding, pady=y_padding)
 
     def start_game_btn_command(self):
         """
         """
         print("NewGameFrame: Sending State Transition Request to StateManager")
-        num_players = 4
+        num_players = int(self.lbx_number_of_players.get(self.lbx_number_of_players.curselection()))
         self.game_logic.player_order(num_players)
         print(self.game_logic.get_player_order())
         self.state_manager.transition_to_gameplay(self.game_logic)
