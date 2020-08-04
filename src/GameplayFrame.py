@@ -28,32 +28,21 @@ class GameplayFrame(tk.Frame):
         self.game_logic = game_logic
         tk.Frame.__init__(self, bg=FRAME_BG)
         self.state_manager = master.state_manager
+
+        rows = len(self.game_logic.matrix)
         
-        # initialize matrix of cell types
+        # initialize matrix of cell types from game logic
         cell_btn_list = []
-
-        print(self.game_logic.matrix)
-
-        rows = 13
-        columns = 13
-        matrix = []
-        for row in range(rows):
-            new_row = []
-            for column in range(columns):
-                if row == 0 or column == 0 or row == rows-1 or column == columns-1 or row == int(rows / 2) or column == int(columns / 2):
-                    cell_type = random.randint(0,3)
-                    new_row.append(cell_type)
-
-                    # create button
-                    color = self.get_cell_color(cell_type)
-                    btn_cell = tk.Button(master=self, width=6, height=3, bg=color)
-
-                    # layout button
-                    btn_cell.grid(row=row, column=column)
-
-                    # add to button list
+        row_index = 0
+        for row in self.game_logic.matrix:
+            column_index = 0
+            for value in row:
+                if value != -1:
+                    btn_cell = tk.Button(master=self, width=6, height=3, bg=self.get_cell_color(value))
+                    btn_cell.grid(row=row_index, column=column_index)
                     cell_btn_list.append(btn_cell)
-            matrix.append(new_row)
+                column_index += 1
+            row_index += 1
 
         # title screen button
         btn_title_screen = tk.Button(master=self, bg=BUTTON_BG, text="Title Screen", command=self.title_screen_btn_command)
@@ -78,16 +67,7 @@ class GameplayFrame(tk.Frame):
         btn_question.grid(row=10, column=9, columnspan=2)
 
     def get_cell_color(self, cell_type):
-        if cell_type == 0:
-            return 'red'
-        elif cell_type == 1:
-            return 'blue'
-        elif cell_type == 2:
-            return 'green'
-        elif cell_type == 3:
-            return 'white'
-        else:
-            return 'black'
+        return self.game_logic.get_category_color(cell_type)
 
     def question_btn_command(self):
         """

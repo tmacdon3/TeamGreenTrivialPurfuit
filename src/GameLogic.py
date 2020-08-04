@@ -16,18 +16,24 @@ class GameLogic():
         self.matrix = []
         # value when it's not a cell
         self.default_matrix_value = -1
+
+        # store this so we don't have to keep reaching out to db
+        self.category_color_dict = self.database_interface.get_category_colors()
+        
+        # maintain a list so we can use matrix numbers as indices
+        self.category_list = []
+        for k in self.category_color_dict.keys():
+            self.category_list.append(k)
         
     # This method generates the matrix for the gameboard 
     def new_game(self):   
-        print(self.get_category_colors())
-
         rows = 13
         columns = 13
         for row in range(rows):
             new_row = []
             for column in range(columns):
                 if row == 0 or column == 0 or row == rows-1 or column == columns-1 or row == int(rows / 2) or column == int(columns / 2):
-                    cell_type = random.randint(0,3)
+                    cell_type = random.randint(0, len(self.category_list)-1)
                     new_row.append(cell_type)
                 else:
                     # just append default if it's not a cell with a button
@@ -128,9 +134,11 @@ class GameLogic():
     def get_next_player(self):
         return self.next_player
 
-    def get_category_colors(self):
-        self.category_colors = self.database_interface.get_category_colors()
-        return self.category_colors
+    def get_category_color(self, index):
+        """Use the number index in the matrix to get a color
+        """
+        print("looking for {}".format(index))
+        return self.category_color_dict[self.category_list[index]]
     
     def get_all_players_scores(self):
         return self.p1.get_score(), self.p2.get_score(), self.p3.get_score(), self.p4.get_score()
