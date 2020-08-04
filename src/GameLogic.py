@@ -8,20 +8,17 @@ from DatabaseInterface import DatabaseInterface
 
 
 class GameLogic():
-    def __init__(self,
-                ):
+    def __init__(self, database_interface):
   
         self.player_iterator = 0
         self.next_player = ""
-        self.database_interface = DatabaseInterface()
+        self.database_interface = database_interface
         self.matrix = []
         
     # This method generates the matrix for the gameboard 
     def new_game(self):   
         print(self.get_category_colors())
 
-        # initialize self.matrix of cell types
-        # cell_btn_list = []
         rows = 13
         columns = 13
         for row in range(rows):
@@ -31,22 +28,8 @@ class GameLogic():
                     cell_type = random.randint(0,3)
                     new_row.append(cell_type)
 
-                    # # create button
-                    # color = self.get_cell_color(cell_type)
-                    # btn_cell = tk.Button(master=self, width=6, height=3, bg=color)
-
-                    # # layout button
-                    # btn_cell.grid(row=row, column=column)
-
-                    # # add to button list
-                    # cell_btn_list.append(btn_cell)
             self.matrix.append(new_row)
-        # for i in self.matrix:
-        #     print(i)
-        #     for j in self.matrix:
-        #         print(j)
 
-        
     # This method rolls the die for choosing who goes first and for gameplay
     def roll_die(self):
         return random.randint(1,6)
@@ -175,7 +158,8 @@ class Player(GameLogic):
 
 if __name__ == "__main__":
     
-    gl = GameLogic()
+    db = DatabaseInterface(input("pw:"))
+    gl = GameLogic(db)
     gl.new_game()
     gl.player_order(4)
 

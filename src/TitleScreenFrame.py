@@ -22,11 +22,11 @@ EXTRA2_BG = "#e76f51"
 
 class TitleScreenFrame(tk.Frame):
 
-    def __init__(self, master, state_manager):
+    def __init__(self, master):
         """
         """
         tk.Frame.__init__(self, master=master, bg=FRAME_BG)
-        self.state_manager = state_manager
+        self.state_manager = master.state_manager
 
         ## create first frame with team green icon
         path_to_logo="resources" + os.path.sep + "team-green-icon.png"

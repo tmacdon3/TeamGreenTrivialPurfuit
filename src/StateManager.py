@@ -29,15 +29,15 @@ class StateManager:
 
         # TODO: Actual logic for transitioning between states
         if self.current_state == State.title_screen:
-            frame = TitleScreenFrame(self.app, self.app.state_manager)
+            frame = TitleScreenFrame(self.app)
         elif self.current_state == State.database_tool:
-            frame = DatabaseToolFrame(self.app, self.app.state_manager, self.app.database_interface)
+            frame = DatabaseToolFrame(self.app)
         elif self.current_state == State.new_game:
-            frame = NewGameFrame(self.app, self.app.state_manager)
+            frame = NewGameFrame(self.app)
         elif self.current_state == State.gameplay:
-            frame = GameplayFrame(self.app, self.app.state_manager)
+            frame = GameplayFrame(self.app)
         elif self.current_state == State.question:
-            frame = QuestionDisplayFrame(self.app, self.app.state_manager, self.app.database_interface)
+            frame = QuestionDisplayFrame(self.app)
         elif self.current_state == State.quit:
             sys.exit(1)
 

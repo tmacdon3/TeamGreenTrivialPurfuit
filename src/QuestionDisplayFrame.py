@@ -18,12 +18,12 @@ EXTRA2_BG = "#e76f51"
 
 class QuestionDisplayFrame(tk.Frame):
 
-    def __init__(self, master, state_manager, database_interface):
+    def __init__(self, master):
         """
         """
         tk.Frame.__init__(self, master=master, bg=FRAME_BG)
-        self.state_manager = state_manager
-        self.database_interface = database_interface
+        self.state_manager = master.state_manager
+        self.database_interface = master.database_interface
 
         self.get_questions_and_answers()
 

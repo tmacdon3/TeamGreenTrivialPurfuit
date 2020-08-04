@@ -20,12 +20,12 @@ EXTRA2_BG = "#e76f51"
 
 class NewGameFrame(tk.Frame):
 
-    def __init__(self, master, state_manager):
+    def __init__(self, master):
         """
         """
         tk.Frame.__init__(self, master=master, bg=FRAME_BG)
-        self.state_manager = state_manager
-        self.game_logic = GameLogic()
+        self.state_manager = master.state_manager
+        self.game_logic = GameLogic(master.database_interface)
         self.game_logic.new_game()
         lbl_new_game_header = tk.Label(master=self, font=("Verdana", 44), bg=LABEL_BG, text="New Game")
 

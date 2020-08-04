@@ -25,7 +25,7 @@ class TrivialPurfuitApp(tk.Tk):
         self.state_manager = StateManager(self)
         self.database_interface = DatabaseInterface(pw)
 
-        self.active_frame = TitleScreenFrame(self, self.state_manager)
+        self.active_frame = TitleScreenFrame(self)
         self.active_frame.pack()
 
     def switch_frame(self, new_frame):

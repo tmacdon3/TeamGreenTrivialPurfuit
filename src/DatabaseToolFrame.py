@@ -20,15 +20,15 @@ CATEGORIES = ["Category_1", "Category_2", "Category_3", "Category_4"]
 
 class DatabaseToolFrame(tk.Frame):
 
-    def __init__(self, master, state_manager, database_interface):
+    def __init__(self, master):
         """
         """
         tk.Frame.__init__(self, bg=FRAME_BG)
 
         self.question_answer_list = []
 
-        self.state_manager = state_manager
-        self.database_interface = database_interface
+        self.state_manager = master.state_manager
+        self.database_interface = master.database_interface
         
         self.lbl_database_tool = tk.Label(master=self, font=("Verdana", 44), bg=LABEL_BG, text="Database Tool")
         self.btn_restore_defaults = tk.Button(master=self, text="Restore Defaults", bg=BUTTON_BG, command=self.restore_defaults_btn_command)
