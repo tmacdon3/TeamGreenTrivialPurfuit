@@ -46,16 +46,14 @@ class DatabaseToolFrame(tk.Frame):
         self.ent_answer.insert(0, "Answer")
         self.btn_add = tk.Button(master=self, bg=BUTTON_BG, text="Add", command=self.add_item_btn_command)
         self.lbx_categories = tk.Listbox(master=self, height=len(CATEGORIES))
-        for item in CATEGORIES:
-            self.lbx_categories.insert(tk.END, item)
         
-        self.lbx_colors = tk.Listbox(master=self, height=2)
-        for item in ["color_1", "color_2"]:
-            self.lbx_colors.insert(tk.END, item)
+        self.ent_colors = tk.Entry(master=self, width=15, bg=BUTTON_BG)
+        self.ent_colors.insert(0, "Hex Color Value")
         self.btn_change_category_color = tk.Button(master=self, bg=BUTTON_BG, text="Change Category Color", command=self.change_category_color_btn_command)
 
         self.txt_question_display = tk.Text(master=self)
-        self._initialize_display()
+
+        self.txt_category_color_display = tk.Text(master=self, height=4, width=15)
 
         self.btn_back = tk.Button(master=self, text="Back", bg=BUTTON_BG, command=self.back_btn_command)
         
@@ -73,27 +71,22 @@ class DatabaseToolFrame(tk.Frame):
         self.lbx_categories.grid(row=7, column=0, padx=x_padding, pady=y_padding)
         self.btn_add.grid(row=8, column=0, padx=x_padding, pady=y_padding)
 
-        self.lbx_colors.grid(row=9, column=0, padx=x_padding, pady=y_padding)
-        self.btn_change_category_color.grid(row=10, column=0, padx=x_padding, pady=y_padding)
+        self.txt_category_color_display.grid(row=9, column=0, rowspan=1, padx=x_padding, pady=y_padding)
+        self.ent_colors.grid(row=10, column=0, padx=x_padding, pady=y_padding)
+        self.btn_change_category_color.grid(row=11, column=0, padx=x_padding, pady=y_padding)
         
         self.txt_question_display.grid(row=1, column=1, rowspan=10, padx=x_padding, pady=y_padding)
 
-        self.btn_back.grid(row=11, column=0, padx=x_padding, pady=y_padding)
+        self.btn_back.grid(row=12, column=0, padx=x_padding, pady=y_padding)
+
+        self._initialize_display()
+        self._initialize_category_color_display()
 
     def _initialize_display(self):
         """
         """
-        self.txt_question_display.delete("1.0","end")
         self.question_answer_list = self.database_interface.get_all_question_answers()
-        index = 0
-        for row in self.question_answer_list:
-            index += 1
-            question = row["question"]
-            answer = row["correct_answer"]
-            category = row["category"]
-            # add the index so we can use it later to remove/search
-            row["index"] = index
-            self.txt_question_display.insert(tk.END, "Index: {}\nQuestion: {}\nAnswer: {}\nCategory: {}\n\n".format(index, question, answer, category))
+        self._refresh_display()
 
     def _refresh_display(self):
         """
@@ -109,12 +102,46 @@ class DatabaseToolFrame(tk.Frame):
             row["index"] = index
             self.txt_question_display.insert(tk.END, "Index: {}\nQuestion: {}\nAnswer: {}\nCategory: {}\n\n".format(index, question, answer, category))
 
+    def _initialize_category_color_display(self):
+        """
+        """
+        self.category_color_dict = self.database_interface.get_category_colors()
+        self.category_list = []
+        self.color_list = []
+        for k, v in self.category_color_dict.items():
+            self.category_list.append(k)
+            self.color_list.append(v)
+
+        for item in self.category_list:
+            self.lbx_categories.insert(tk.END, item)
+
+        self._refresh_category_color_display()
+
+    def _refresh_category_color_display(self):
+        """
+        """
+        self.txt_category_color_display.delete("1.0","end")
+        for k,v in self.category_color_dict.items():
+            self.txt_category_color_display.insert(tk.END, "{}: {}\n".format(k,v))
+
     def add_item_btn_command(self):
         """
         """
         print("DatabaseToolFrame: Sending Add Item Request to DatabaseInterface")
-        self.database_interface.add_question_answer("question", "answer", "category")
-        # TODO
+        question = self.ent_question.get()
+        answer = self.ent_answer.get()
+        category = self.lbx_categories.get(self.lbx_categories.curselection())
+
+        self.database_interface.add_question_answer(question, answer, category)
+        self.question_answer_list.append({
+            "question": question,
+            "correct_answer": answer,
+            "category": category,
+            "index": len(self.question_answer_list) + 1
+        })
+
+        # this is a hack... it doesn't actually update the database, just our display
+        self._refresh_display()
 
     def remove_item_btn_command(self):
         """
@@ -145,13 +172,17 @@ class DatabaseToolFrame(tk.Frame):
         """
         print("DatabaseToolFrame: Sending Get All Request to DatabaseInterface")
         self._initialize_display()
+        self._initialize_category_color_display()
 
     def change_category_color_btn_command(self):
         """
         """
         print("DatabaseToolFrame: Sending Change Category Request to DatabaseInterface")
-        self.database_interface.change_category_color("category", "color")
-        # TODO
+        color = self.ent_colors.get()
+        category = self.lbx_categories.get(self.lbx_categories.curselection())
+        self.database_interface.change_category_color(category, color)
+        self.category_color_dict[category] = color
+        self._refresh_category_color_display()
 
     def back_btn_command(self):
         """
