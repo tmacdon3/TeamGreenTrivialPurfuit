@@ -4,9 +4,12 @@
 
 # help: https://pynative.com/python-database-programming-exercise-with-solution/
 
-CREATE_DATEBASE = """
-    DROP DATABASE IF EXISTS tpdb;
+CREATE_DATABASE = """
     CREATE DATABASE IF NOT EXISTS tpdb;
+"""
+
+DROP_DATABASE = """
+    DROP DATABASE IF EXISTS tpdb;
 """
 
 SHOW_DATABASES = """
