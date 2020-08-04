@@ -14,8 +14,33 @@ class Database():
         self.user = user
         self.pswrd = pswrd
 
+        self._startup()
 
-    def get_db_connection(self):
+    def _startup(self):
+        """ Initializes all data
+        """
+
+        # TODO: Make this only happen if things don't already exist
+        print("DROP DATABASE")
+        self.drop_database()
+        
+        print("CREATE DATABASE")
+        self.create_database()
+        
+        print("SHOW DATABASE")
+        self.show_database()
+        
+        print("CREATE TABLES")
+        self.create_tables()
+        
+        print("SHOW TABLES")
+        self.show_tables()
+
+        print("INSERT DATA")
+        self.insert_data()
+
+
+    def get_initial_connection(self):
         """
 
         """
@@ -24,9 +49,22 @@ class Database():
             host=self.host,
             user=self.user,
             password=self.pswrd,
-            # autocommit=True,
+            #autocommit=True
         )
         return conn
+
+    def get_db_connection(self):
+        """
+        """
+
+        conn = mysql.connector.connect(
+            host=self.host,
+            user=self.user,
+            password=self.pswrd,
+            db="tpdb"
+        )
+        return conn
+
 
 
     def close_db_connection(self, conn):
@@ -41,14 +79,26 @@ class Database():
         """
 
         """
-
         try:
-            conn = self.get_db_connection()
+            conn = self.get_initial_connection()
             cur = conn.cursor()
-            sql = dc.CREATE_DATEBASE
+            sql = dc.CREATE_DATABASE
             cur.execute(sql)
             self.close_db_connection(conn)
             print("Database created!")
+        except (Exception, mysql.connector.Error) as error:
+            print("Error creating database :(", error)
+
+    def drop_database(self):
+        """
+        """
+        try:
+            conn = self.get_initial_connection()
+            cur = conn.cursor()
+            sql = dc.DROP_DATABASE
+            cur.execute(sql)
+            self.close_db_connection(conn)
+            print("Database dropped!")
         except (Exception, mysql.connector.Error) as error:
             print("Error creating database :(", error)
 
@@ -80,7 +130,9 @@ class Database():
             for s in sql:
                 conn = self.get_db_connection()
                 cur = conn.cursor()
-                cur.execute(dc.USE_DB + s)
+                #cur.execute(dc.USE_DB + s)
+                cur.execute(s)
+                print(s)
                 self.close_db_connection(conn)
             print('All tables created successfully!')
         except (Exception, mysql.connector.Error) as error:
@@ -243,8 +295,8 @@ class Database():
         try:
             conn = self.get_db_connection()
             cur = conn.cursor()
-            sql = dc.USE_DB
-            cur.execute(sql)
+            #sql = dc.USE_DB
+            #cur.execute(sql)
             sql = """
                 UPDATE categories
                 SET category_color = '{color}'
@@ -270,8 +322,8 @@ class Database():
         try:
             conn = self.get_db_connection()
             cur = conn.cursor()
-            sql = dc.USE_DB
-            cur.execute(sql)
+            #sql = dc.USE_DB
+            #cur.execute(sql)
             sql = """
                 INSERT INTO {a_tbl} (answer_text)
                 VALUES ('{answer}')
@@ -279,6 +331,7 @@ class Database():
                 a_tbl=a_tbl,
                 answer=answer,
             )
+            print(sql)
             cur.execute(sql)
             sql = """
                 INSERT INTO {q_tbl} (question_text, correct_answer_id)
@@ -290,6 +343,7 @@ class Database():
                 a_tbl=a_tbl,
                 answer=answer,
             )
+            print(sql)
             cur.execute(sql)
             self.close_db_connection(conn)
         except (Exception, mysql.connector.Error) as error:
@@ -305,8 +359,8 @@ class Database():
         try:
             conn = self.get_db_connection()
             cur = conn.cursor()
-            sql = dc.USE_DB
-            cur.execute(sql)
+            #sql = dc.USE_DB
+            #cur.execute(sql)
             sql = """
                 DELETE FROM {q_tbl}
                 WHERE question_text = '{question}'
@@ -317,6 +371,7 @@ class Database():
             )
             cur.execute(sql)
             self.close_db_connection(conn)
+            print("Removed question: {}".format(question))
         except (Exception, mysql.connector.Error) as error:
             print(error)
 

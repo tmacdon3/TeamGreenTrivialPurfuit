@@ -14,7 +14,8 @@ class DatabaseInterface():
         """
         """
         # this is a test
-        self.db = Database("localhost", "root", "")
+        pw = input("Enter MySQL root password (if applicable): ")
+        self.db = Database("localhost", "root", pw)
 
     def add_question_answer(self, question, answer, category):
         """
@@ -26,11 +27,12 @@ class DatabaseInterface():
         """
         """
         print("DatabaseInterface: Received Request to Remove Item")
+        self.db.remove_question_answer(question, category)
 
     def get_all_question_answers(self):
         """
 
-        Return list of {'question': x, 'answer': x, 'category': x}
+        Return list of {'question': x, 'correct_answer': x, 'category': x}
         """
         print("DatabaseInterface: Received Request to Get All")
         return self.db.get_all_question_answers()
