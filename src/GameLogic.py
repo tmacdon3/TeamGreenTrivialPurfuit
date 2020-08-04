@@ -54,9 +54,9 @@ class GameLogic():
             self.order[i] = self.roll_die()
         self.max = self.order.argmax()
 
-        first_player = "Player" + str(self.max+1)
+        first_player = "Player " + str(self.max+1)
         print(first_player + " goes first")
-        players = ["Player1", "Player2", "Player3", "Player4"]
+        players = ["Player 1", "Player 2", "Player 3", "Player 4"]
 
         for i in range(num_players):
             if first_player == players[i]:
@@ -137,7 +137,6 @@ class GameLogic():
     def get_category_color(self, index):
         """Use the number index in the matrix to get a color
         """
-        print("looking for {}".format(index))
         return self.category_color_dict[self.category_list[index]]
     
     def get_all_players_scores(self):
