@@ -34,13 +34,18 @@ class StateManager:
             frame = DatabaseToolFrame(self.app)
         elif self.current_state == State.new_game:
             frame = NewGameFrame(self.app)
-        elif self.current_state == State.gameplay:
-            frame = GameplayFrame(self.app)
         elif self.current_state == State.question:
             frame = QuestionDisplayFrame(self.app)
         elif self.current_state == State.quit:
             sys.exit(1)
 
+        self.app.switch_frame(frame)
+
+    def transition_to_gameplay(self, game_logic):
+        """
+        """
+        self.current_state = State.gameplay
+        frame = GameplayFrame(self.app, game_logic)
         self.app.switch_frame(frame)
 
     def get_current_state(self):

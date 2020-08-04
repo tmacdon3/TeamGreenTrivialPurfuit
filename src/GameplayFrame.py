@@ -22,16 +22,18 @@ CATEGORIES = ["Category_1", "Category_2", "Category_3", "Category_4"]
 
 class GameplayFrame(tk.Frame):
 
-    def __init__(self, master):
+    def __init__(self, master, game_logic):
         """
         """
-        self.game_logic = GameLogic(master.database_interface)
+        self.game_logic = game_logic
         tk.Frame.__init__(self, bg=FRAME_BG)
         self.state_manager = master.state_manager
         
-
         # initialize matrix of cell types
         cell_btn_list = []
+
+        print(self.game_logic.matrix)
+
         rows = 13
         columns = 13
         matrix = []

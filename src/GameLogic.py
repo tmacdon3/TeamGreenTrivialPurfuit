@@ -14,6 +14,8 @@ class GameLogic():
         self.next_player = ""
         self.database_interface = database_interface
         self.matrix = []
+        # value when it's not a cell
+        self.default_matrix_value = -1
         
     # This method generates the matrix for the gameboard 
     def new_game(self):   
@@ -27,6 +29,9 @@ class GameLogic():
                 if row == 0 or column == 0 or row == rows-1 or column == columns-1 or row == int(rows / 2) or column == int(columns / 2):
                     cell_type = random.randint(0,3)
                     new_row.append(cell_type)
+                else:
+                    # just append default if it's not a cell with a button
+                    new_row.append(self.default_matrix_value)
 
             self.matrix.append(new_row)
 

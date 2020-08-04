@@ -36,7 +36,6 @@ class NewGameFrame(tk.Frame):
 
         btn_start_game = tk.Button(master=self, bg=BUTTON_BG, text="Start Game", command=self.start_game_btn_command)
 
-
         lbl_new_game_header.grid(row=0, column=0, columnspan=2, padx=x_padding, pady=y_padding)
         lbl_choose_number_of_players.grid(row=1, column=0, padx=x_padding, pady=y_padding)
         lbx_number_of_players.grid(row=1, column=1, padx=x_padding, pady=y_padding)
@@ -49,4 +48,4 @@ class NewGameFrame(tk.Frame):
         num_players = 4
         self.game_logic.player_order(num_players)
         print(self.game_logic.get_player_order())
-        self.state_manager.transition_state(State.gameplay)
+        self.state_manager.transition_to_gameplay(self.game_logic)
