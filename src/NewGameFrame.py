@@ -2,9 +2,10 @@
 @author: Tyler MacDonald
 """
 
-import os
-from State import State
 from GameLogic import GameLogic
+import os
+from SaveState import SaveState
+from State import State
 import sys
 import tkinter as tk
 
@@ -24,9 +25,8 @@ class NewGameFrame(tk.Frame):
         """
         """
         tk.Frame.__init__(self, master=master, bg=FRAME_BG)
+        self.master = master
         self.state_manager = master.state_manager
-        self.game_logic = GameLogic(master.database_interface)
-        self.game_logic.new_game()
         self.lbl_new_game_header = tk.Label(master=self, font=("Verdana", 44), bg=LABEL_BG, text="New Game")
 
         self.lbl_choose_number_of_players = tk.Label(master=self, bg=LABEL_BG, text="Choose Number of Players:")
@@ -45,7 +45,11 @@ class NewGameFrame(tk.Frame):
         """
         """
         print("NewGameFrame: Sending State Transition Request to StateManager")
+        self.game_logic = GameLogic(self.master.database_interface)
+        self.game_logic.new_game()
         num_players = int(self.lbx_number_of_players.get(self.lbx_number_of_players.curselection()))
         self.game_logic.player_order(num_players)
-        print(self.game_logic.get_player_order())
-        self.state_manager.transition_to_gameplay(self.game_logic)
+        
+        save_state = SaveState(self.game_logic)
+
+        self.state_manager.transition_to_gameplay(save_state)
