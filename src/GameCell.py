@@ -6,7 +6,7 @@ import tkinter as tk
 
 class GameCell(tk.Button):
 
-    def __init__(self, game_frame, color, width, height, row, column):
+    def __init__(self, game_frame, color, width, height, category, row, column):
         """
         """
         tk.Button.__init__(self, master=game_frame, width=width, height=height, bg=color, command=self._send_coordinates_to_game_frame)
@@ -14,6 +14,7 @@ class GameCell(tk.Button):
         self.game_frame = game_frame
         self.row = row
         self.column = column
+        self.category = category
 
         self.player_list = []
 
