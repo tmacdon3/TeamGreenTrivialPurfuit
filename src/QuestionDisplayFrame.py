@@ -19,14 +19,16 @@ EXTRA2_BG = "#e76f51"
 
 class QuestionDisplayFrame(tk.Frame):
 
-    def __init__(self, master, state_manager, database_interface, current_category):
+    def __init__(self, master, save_state):
         """
         """
         tk.Frame.__init__(self, master=master, bg=FRAME_BG)
-        self.state_manager = state_manager
-        self.database_interface = database_interface
+        self.state_manager = master.state_manager
+        self.database_interface = master.database_interface
 
-        self.category = current_category
+        self.save_state = save_state
+
+        self.category = save_state.game_logic.current_category
 
         self._get_questions_and_answers()
 
@@ -109,7 +111,10 @@ class QuestionDisplayFrame(tk.Frame):
         chosen_answer = self.focus_get()['text']
         if chosen_answer == self.answer:
             print("correct: {} == {}".format(chosen_answer, self.answer))
-            self.state_manager.transition_to_gameplay_from_question(True)
+            self.save_state.game_logic.answered_correctly = True
+            self.save_state.game_logic.update_score()
+            self.state_manager.transition_to_gameplay_from_question()
         else:
             print("incorrect: {} != {}".format(chosen_answer, self.answer))
-            self.state_manager.transition_to_gameplay_from_question(False)
+            self.save_state.game_logic.answered_correctly = False
+            self.state_manager.transition_to_gameplay_from_question()
