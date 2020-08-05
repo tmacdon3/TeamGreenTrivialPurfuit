@@ -3,6 +3,7 @@
 """
 
 import os
+import random
 from State import State
 import sys
 import tkinter as tk
@@ -18,37 +19,42 @@ EXTRA2_BG = "#e76f51"
 
 class QuestionDisplayFrame(tk.Frame):
 
-    def __init__(self, master):
+    def __init__(self, master, state_manager, database_interface, current_category):
         """
         """
         tk.Frame.__init__(self, master=master, bg=FRAME_BG)
-        self.state_manager = master.state_manager
-        self.database_interface = master.database_interface
+        self.state_manager = state_manager
+        self.database_interface = database_interface
 
-        self.get_questions_and_answers()
+        self.category = current_category
 
-        lbl_question_header = tk.Label(master=self, font=("Verdana", 44), bg=LABEL_BG, text="Question")
-        lbl_time_limit = tk.Label(master=self, bg=LABEL_BG, text="Time Display")
+        self._get_questions_and_answers()
 
-        lbl_question_display = tk.Label(master=self, bg=LABEL_BG, text="Question from Database")
-        self.btn_answer_one = tk.Button(master=self, bg=BUTTON_BG, text="Answer One", command=self.highlight_question_one)
-        self.btn_answer_two = tk.Button(master=self, bg=BUTTON_BG, text="Answer Two", command=self.highlight_question_two)
-        self.btn_answer_three = tk.Button(master=self, bg=BUTTON_BG, text="Answer Three", command=self.highlight_question_three)
-        self.btn_answer_four = tk.Button(master=self, bg=BUTTON_BG, text="Answer Four", command=self.highlight_question_four)
+        self.lbl_question_header = tk.Label(master=self, font=("Verdana", 44), bg=LABEL_BG, text="Question")
+        #self.lbl_time_limit = tk.Label(master=self, bg=LABEL_BG, text="Time Display")
 
-        btn_confirm = tk.Button(master=self, bg=BUTTON_BG, text="Confirm", command=self.confirm_btn_command)
+        self.lbl_question_display = tk.Label(master=self, bg=LABEL_BG)
+        self.btn_answer_one = tk.Button(master=self, bg=BUTTON_BG, command=self.highlight_question_one)
+        self.btn_answer_two = tk.Button(master=self, bg=BUTTON_BG, command=self.highlight_question_two)
+        self.btn_answer_three = tk.Button(master=self, bg=BUTTON_BG, command=self.highlight_question_three)
+        self.btn_answer_four = tk.Button(master=self, bg=BUTTON_BG, command=self.highlight_question_four)
+        self.btn_list = [self.btn_answer_one, self.btn_answer_two, self.btn_answer_three, self.btn_answer_four]
+
+        self.btn_confirm = tk.Button(master=self, bg=BUTTON_BG, text="Confirm", command=self.confirm_btn_command)
 
         # configure layout stuff
-        lbl_question_header.grid(row=0, column=0, padx=x_padding, pady=y_padding)
-        lbl_time_limit.grid(row=0, column=1, padx=x_padding, pady=y_padding)
-        lbl_question_display.grid(row=1, column=0, columnspan=2, padx=x_padding, pady=y_padding)
+        self.lbl_question_header.grid(row=0, column=0, padx=x_padding, pady=y_padding)
+        #self.lbl_time_limit.grid(row=0, column=1, padx=x_padding, pady=y_padding)
+        self.lbl_question_display.grid(row=1, column=0, columnspan=2, padx=x_padding, pady=y_padding)
 
         self.btn_answer_one.grid(row=2, column=0, columnspan=2, padx=x_padding, pady=y_padding)
         self.btn_answer_two.grid(row=3, column=0, columnspan=2, padx=x_padding, pady=y_padding)
         self.btn_answer_three.grid(row=4, column=0, columnspan=2, padx=x_padding, pady=y_padding)
         self.btn_answer_four.grid(row=5, column=0, columnspan=2, padx=x_padding, pady=y_padding)
 
-        btn_confirm.grid(row=6, column=0, columnspan=2, padx=x_padding, pady=y_padding)
+        self.btn_confirm.grid(row=6, column=0, columnspan=2, padx=x_padding, pady=y_padding)
+
+        self._update_button_text()
 
     def highlight_question_one(self):
         """
@@ -74,16 +80,36 @@ class QuestionDisplayFrame(tk.Frame):
         print("QuestionDisplayFrame: Focus Set on Answer Four")
         self.btn_answer_four.focus_set()
 
-    def get_questions_and_answers(self):
+    def _update_button_text(self):
+        """
+        """
+        L1 = random.sample(range(len(self.btn_list)), len(self.btn_list))
+        L2 = random.sample(range(len(self.btn_list)), len(self.btn_list))
+        for index in range(len(L1)):
+            btn = self.btn_list[L1[index]]
+            answer = self.all_answers[L2[index]]
+            btn["text"] = answer
+
+        self.lbl_question_display["text"] = self.question
+
+    def _get_questions_and_answers(self):
         """
         """
         print("QuestionDisplayFrame: Sending Request for Questions and Answers to DatabaseInterface")
-        self.database_interface.get_question_answer_quadruplet("test")
+        # TODO: Fix this so it doesn't return a ton of them
+        results = self.database_interface.get_question_answer_quadruplet(self.category)[0]
+        self.question = results["question"]
+        self.answer = results["correct_answer"]
+        self.fake_answer_list = results["random_answers"]
+        self.all_answers = [self.answer] + self.fake_answer_list
 
     def confirm_btn_command(self):
         """
         """
-        answer = self.focus_get()['text']
-        print("QuestionDisplayFrame: Sending Correct/Incorrect Message to CoreGameLogic")
-        print("QuestionDisplayFrame: Sending State Transition Request to StateManager")
-        self.state_manager.transition_state(State.gameplay)
+        chosen_answer = self.focus_get()['text']
+        if chosen_answer == self.answer:
+            print("correct: {} == {}".format(chosen_answer, self.answer))
+            self.state_manager.transition_to_gameplay_from_question(True)
+        else:
+            print("incorrect: {} != {}".format(chosen_answer, self.answer))
+            self.state_manager.transition_to_gameplay_from_question(False)
