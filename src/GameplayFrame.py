@@ -85,6 +85,10 @@ class GameplayFrame(tk.Frame):
         btn_question = tk.Button(master=self, bg=BUTTON_BG, text="Question", command=self.question_btn_command)
         btn_question.grid(row=10, column=9, columnspan=2)
 
+        # informational display
+        self.info_display = tk.Message(master=self, text="green=holiday=a,\nred=people= b,\nwhite=events=c,\nblue=places=d", bg=LABEL_BG)
+        self.info_display.grid(row=2, column=8, columnspan=4, rowspan=3)
+
         # status display
         self.msg_status = tk.Message(master=self, text="Status Display", bg=LABEL_BG)
         self.msg_status.grid(row=8, column=2, columnspan=4, rowspan=3)
