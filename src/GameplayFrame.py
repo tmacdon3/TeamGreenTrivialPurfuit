@@ -2,14 +2,15 @@
 @author: Tyler MacDonald
 """
 
-import os
-import random
-from State import State
-import sys
-import tkinter as tk
 from GameCell import GameCell
 from GameLogic import GameLogic
 from GameState import GameState
+import os
+import random
+from SaveState import SaveState
+from State import State
+import sys
+import tkinter as tk
     
 x_padding = 25
 y_padding = 10
@@ -24,23 +25,25 @@ CATEGORIES = ["Category_1", "Category_2", "Category_3", "Category_4"]
 
 class GameplayFrame(tk.Frame):
 
-    def __init__(self, master, game_logic):
+    def __init__(self, master, save_state):
         """
         """
         tk.Frame.__init__(self, bg=FRAME_BG)
-        self.game_logic = game_logic
+        self.game_logic = save_state.game_logic
         self.state_manager = master.state_manager
         self.game_state = GameState.roll_die
         self.game_logic.player_turn()
         self.current_player = self.game_logic.get_next_player()
         self.current_die_roll = 0
 
+        self.current_category = None
+
+        self.correct_answer = None
+
         self.center_row = 6
         self.center_column = 6
 
         rows = len(self.game_logic.matrix)
-
-        print(self.game_logic.matrix)
         
         # initialize matrix of GameCells from game logic
         self.game_cell_matrix = []
@@ -50,7 +53,7 @@ class GameplayFrame(tk.Frame):
             row_list = []
             for value in row:
                 if value != -1:
-                    btn_cell = GameCell(game_frame=self, width=6, height=3, color=self.get_cell_color(value), row=row_index, column=column_index)
+                    btn_cell = GameCell(game_frame=self, width=6, height=3, color=self.get_cell_color(value), category=self.game_logic.category_list[value], row=row_index, column=column_index)
                     btn_cell.grid(row=row_index, column=column_index)
                     row_list.append(btn_cell)
                 else:
@@ -92,8 +95,9 @@ class GameplayFrame(tk.Frame):
         """
         """
         for k in self.game_logic.player_dict.keys():
-            self.game_logic.update_position(k, (self.center_row, self.center_column))
-            self._get_button(self.center_row, self.center_column).add_player(k)
+            pos = self.game_logic.get_player_position(k)
+            print(pos)
+            self._get_button(pos[0], pos[1]).add_player(k)
 
     def _update_status_display(self):
         """
@@ -125,7 +129,7 @@ class GameplayFrame(tk.Frame):
         """
         if self.game_state == GameState.answer_question:
             print("GameplayFrame: Sending State Transition Request to StateManager")
-            self.state_manager.transition_state(State.question)
+            self.state_manager.transition_to_question(self)
         else:
             print("Not the correct state to request a question")
 
@@ -147,14 +151,19 @@ class GameplayFrame(tk.Frame):
 
             # get where current player is
             pos = self.game_logic.get_player_position(self.current_player)
-            print(pos)
 
             # remove current player from old cell
             self._get_button(pos[0], pos[1]).remove_player(self.current_player)
 
             # add player to new cell
             self._get_button(row, column).add_player(self.current_player)
+
+            # update player position
+            self.game_logic.player_dict[self.current_player].set_position((row, column))
             
+            # update current category
+            self.current_category = self._get_button(row, column).category
+
             # update game state and display
             self.game_state = GameState.answer_question
             self._update_status_display()
