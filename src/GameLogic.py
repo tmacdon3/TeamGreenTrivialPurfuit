@@ -141,7 +141,8 @@ class GameLogic():
 
 class Player(GameLogic):
     def __init__(self):
-             self.position = (0,0)
+            # TODO don't make this hardcoded
+             self.position = (6,6)
              self.score = ""
 
     def set_position(self, new_position):
