@@ -11,7 +11,7 @@ class GameLogic():
     def __init__(self, database_interface):
   
         self.player_iterator = 0
-        self.next_player = ""
+        self.current_player = ""
         self.database_interface = database_interface
         self.matrix = []
         # value when it's not a cell
@@ -26,6 +26,9 @@ class GameLogic():
             self.category_list.append(k)
 
         self.player_dict = {}
+
+        self.current_category = None
+        self.answered_correctly = None
         
     # This method generates the matrix for the gameboard 
     def new_game(self):   
@@ -89,7 +92,7 @@ class GameLogic():
 
     """
     Score is updated as follows:
-    a = "Declaration of Independence and Continental Congress"
+    a = "holiday"
     b = "people"
     c = "events"
     d = "places"
@@ -97,17 +100,28 @@ class GameLogic():
     for instance if a player had correctly answered people and places,
     their score would be "bd"
     """
-    def update_score(self, player, new_score):
-        self.player_dict[player].set_score(new_score)   
+    def update_score(self):
+        player = self.current_player
+        category = self.current_category
+        if category == "people":
+            self.player_dict[player].add_score("b")
+        elif category == "holiday":
+            self.player_dict[player].add_score("a")
+        elif category == "events":
+            self.player_dict[player].add_score("c")
+        elif category == "places":
+            self.player_dict[player].add_score("d")
 
     # Determines which player shall go next.
-    def player_turn(self):    
-        if (self.player_iterator + 1) >= self.num_players:
-            self.player_iterator = 0
-            self.next_player = self.player_list[self.player_iterator]
-        else:
-            self.player_iterator += 1
-            self.next_player = self.player_list[self.player_iterator]
+    def player_turn(self):
+        # it's the same player if it was answered correctly
+        if self.answered_correctly == False or self.answered_correctly == None:
+            if (self.player_iterator + 1) >= self.num_players:
+                self.player_iterator = 0
+                self.current_player = self.player_list[self.player_iterator]
+            else:
+                self.player_iterator += 1
+                self.current_player = self.player_list[self.player_iterator]
 
     # Returns the list of player order
     def get_player_order(self):
@@ -118,8 +132,8 @@ class GameLogic():
         return self.matrix
 
     # Returns the play whose turn is next
-    def get_next_player(self):
-        return self.next_player
+    def get_current_player(self):
+        return self.current_player
 
     def get_category_color(self, index):
         """Use the number index in the matrix to get a color
@@ -148,8 +162,11 @@ class Player(GameLogic):
     def set_position(self, new_position):
         self.position = new_position
 
-    def set_score(self, new_score):
-        self.score = new_score
+    def add_score(self, score):
+        if score not in self.score:
+            self.score += score
+        # sort it so they all look in order
+        self.score = sorted(self.score)
 
     def get_position(self):
         return self.position
@@ -170,7 +187,7 @@ if __name__ == "__main__":
     
     for i in range(6):
         gl.player_turn()
-        print(gl.get_next_player())
+        print(gl.get_current_player())
     print(gl.get_player_order())
 
     score = "bcda"
