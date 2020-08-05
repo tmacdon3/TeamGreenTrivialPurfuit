@@ -53,8 +53,6 @@ class StateManager:
         """
         gameplay_frame = GameplayFrame(self.app, self.save_state)
 
-        
-
         self.app.switch_frame(gameplay_frame)
 
 

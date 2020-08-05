@@ -31,12 +31,14 @@ class GameplayFrame(tk.Frame):
         tk.Frame.__init__(self, bg=FRAME_BG)
         self.game_logic = save_state.game_logic
         self.state_manager = master.state_manager
-        self.game_state = GameState.roll_die
+        if self.game_logic.win_game:
+            self.game_state = GameState.end_game
+        else:
+            self.game_state = GameState.roll_die
         self.game_logic.player_turn()
         self.current_die_roll = 0
 
         self.current_category = None
-
         self.correct_answer = None
 
         self.center_row = 6
@@ -85,7 +87,7 @@ class GameplayFrame(tk.Frame):
 
         # status display
         self.msg_status = tk.Message(master=self, text="Status Display", bg=LABEL_BG)
-        self.msg_status.grid(row=8, column=2, columnspan=3, rowspan=3)
+        self.msg_status.grid(row=8, column=2, columnspan=4, rowspan=3)
 
         # update displays based on current game logic information
         self._update_status_display()
@@ -97,7 +99,6 @@ class GameplayFrame(tk.Frame):
         """
         for k in self.game_logic.player_dict.keys():
             pos = self.game_logic.get_player_position(k)
-            print(pos)
             self._get_button(pos[0], pos[1]).add_player(k)
     
     def _update_score_display(self):
@@ -117,7 +118,6 @@ class GameplayFrame(tk.Frame):
     def _update_status_display(self):
         """
         """
-
         if self.game_state == GameState.roll_die:
             status_message = "{} should roll the die".format(self.game_logic.current_player)
         elif self.game_state == GameState.answer_question:
@@ -125,7 +125,8 @@ class GameplayFrame(tk.Frame):
         elif self.game_state == GameState.choose_cell:
             status_message = "{} rolled a {} and should choose a cell to move to".format(self.game_logic.current_player, self.current_die_roll)
         elif self.game_state == GameState.end_game:
-            status_message = "{} should choose a category".format(self.game_logic.current_player)
+            #status_message = "{} should choose a category".format(self.game_logic.current_player)
+            status_message = "{} has won the game! Congratulations!".format(self.game_logic.current_player)
         else:
             status_message = "Unknown GameState. HELP!"
 

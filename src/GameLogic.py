@@ -29,6 +29,8 @@ class GameLogic():
 
         self.current_category = None
         self.answered_correctly = None
+
+        self.win_game = False
         
     # This method generates the matrix for the gameboard 
     def new_game(self):   
@@ -60,7 +62,6 @@ class GameLogic():
         self.max = self.order.argmax()
 
         first_player = "p" + str(self.max+1)
-        print(first_player + " goes first")
         players = ["p1", "p2", "p3", "p4"]
 
         for i in range(num_players):
@@ -102,15 +103,20 @@ class GameLogic():
     """
     def update_score(self):
         player = self.current_player
-        category = self.current_category
-        if category == "people":
-            self.player_dict[player].add_score("b")
-        elif category == "holiday":
-            self.player_dict[player].add_score("a")
-        elif category == "events":
-            self.player_dict[player].add_score("c")
-        elif category == "places":
-            self.player_dict[player].add_score("d")
+        print(len(self.player_dict[player].get_score()) == 4)
+        print(self.player_dict[player].get_position())
+        if len(self.player_dict[player].get_score()) == 4 and self.player_dict[player].get_position() == (6,6):
+            self.win_game = True
+        else:
+            category = self.current_category
+            if category == "people":
+                self.player_dict[player].add_score("b")
+            elif category == "holiday":
+                self.player_dict[player].add_score("a")
+            elif category == "events":
+                self.player_dict[player].add_score("c")
+            elif category == "places":
+                self.player_dict[player].add_score("d")
 
     # Determines which player shall go next.
     def player_turn(self):
