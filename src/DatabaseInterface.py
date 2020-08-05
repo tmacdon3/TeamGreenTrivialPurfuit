@@ -48,7 +48,7 @@ class DatabaseInterface():
         Return list of {'question': x, 'correct_answer': x, 'random_answers': []}
         """
         print("DatabaseInterface: Received Request to Get Questions and Answers")
-        return self.db.get_question_answer_quadruplet('people')
+        return self.db.get_question_answer_quadruplet(category)
 
     def get_category_colors(self):
         """
