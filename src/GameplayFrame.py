@@ -33,7 +33,6 @@ class GameplayFrame(tk.Frame):
         self.state_manager = master.state_manager
         self.game_state = GameState.roll_die
         self.game_logic.player_turn()
-        self.current_player = self.game_logic.get_next_player()
         self.current_die_roll = 0
 
         self.current_category = None
@@ -67,17 +66,17 @@ class GameplayFrame(tk.Frame):
         self.btn_title_screen.grid(row=rows, column=0, columnspan=2, sticky="W")
 
         # player labels
-        self.lbl_player_1 = tk.Label(master=self, text="Player 1 Score: ", bg=LABEL_BG)
-        self.lbl_player_2 = tk.Label(master=self, text="Player 2 Score: ", bg=LABEL_BG)
-        self.lbl_player_3 = tk.Label(master=self, text="Player 3 Score: ", bg=LABEL_BG)
-        self.lbl_player_4 = tk.Label(master=self, text="Player 4 Score: ", bg=LABEL_BG)
+        self.lbl_player_1 = tk.Label(master=self, text="p1 Score: ", bg=LABEL_BG)
+        self.lbl_player_2 = tk.Label(master=self, text="p2 Score: ", bg=LABEL_BG)
+        self.lbl_player_3 = tk.Label(master=self, text="p3 Score: ", bg=LABEL_BG)
+        self.lbl_player_4 = tk.Label(master=self, text="p4 Score: ", bg=LABEL_BG)
         self.lbl_player_1.grid(row=rows, column=1, columnspan=3)
         self.lbl_player_2.grid(row=rows, column=4, columnspan=3)
         self.lbl_player_3.grid(row=rows, column=7, columnspan=3)
         self.lbl_player_4.grid(row=rows, column=10, columnspan=3)
 
         # roll dice button
-        self.btn_roll_die = tk.Button(master=self, bg=BUTTON_BG, text="Roll Dice", command=self.roll_die_btn_command)
+        self.btn_roll_die = tk.Button(master=self, bg=BUTTON_BG, text="Roll Die", command=self.roll_die_btn_command)
         self.btn_roll_die.grid(row=9, column=9, columnspan=2)
 
         # question button
@@ -88,8 +87,10 @@ class GameplayFrame(tk.Frame):
         self.msg_status = tk.Message(master=self, text="Status Display", bg=LABEL_BG)
         self.msg_status.grid(row=8, column=2, columnspan=3, rowspan=3)
 
+        # update displays based on current game logic information
         self._update_status_display()
         self._display_start_positions()
+        self._update_score_display()
 
     def _display_start_positions(self):
         """
@@ -98,19 +99,33 @@ class GameplayFrame(tk.Frame):
             pos = self.game_logic.get_player_position(k)
             print(pos)
             self._get_button(pos[0], pos[1]).add_player(k)
+    
+    def _update_score_display(self):
+        """
+        """
+        for k,v in self.game_logic.player_dict.items():
+            score = v.get_score()
+            if k == "p1":
+                self.lbl_player_1["text"] = "p1 Score: {}".format(score)
+            elif k == "p2":
+                self.lbl_player_2["text"] = "p2 Score: {}".format(score)
+            elif k == "p3":
+                self.lbl_player_3["text"] = "p3 Score: {}".format(score)
+            elif k == "p4":
+                self.lbl_player_4["text"] = "p4 Score: {}".format(score)
 
     def _update_status_display(self):
         """
         """
 
         if self.game_state == GameState.roll_die:
-            status_message = "{} should roll the dice".format(self.current_player)
+            status_message = "{} should roll the die".format(self.game_logic.current_player)
         elif self.game_state == GameState.answer_question:
-            status_message = "{} should request a question".format(self.current_player)
+            status_message = "{} should request a question".format(self.game_logic.current_player)
         elif self.game_state == GameState.choose_cell:
-            status_message = "{} rolled a {} and should choose a cell to move to".format(self.current_player, self.current_die_roll)
+            status_message = "{} rolled a {} and should choose a cell to move to".format(self.game_logic.current_player, self.current_die_roll)
         elif self.game_state == GameState.end_game:
-            status_message = "{} should choose a category".format(self.current_player)
+            status_message = "{} should choose a category".format(self.game_logic.current_player)
         else:
             status_message = "Unknown GameState. HELP!"
 
@@ -150,19 +165,19 @@ class GameplayFrame(tk.Frame):
             print("Button at [row={}, column={}] was clicked".format(row, column))
 
             # get where current player is
-            pos = self.game_logic.get_player_position(self.current_player)
+            pos = self.game_logic.get_player_position(self.game_logic.current_player)
 
             # remove current player from old cell
-            self._get_button(pos[0], pos[1]).remove_player(self.current_player)
+            self._get_button(pos[0], pos[1]).remove_player(self.game_logic.current_player)
 
             # add player to new cell
-            self._get_button(row, column).add_player(self.current_player)
+            self._get_button(row, column).add_player(self.game_logic.current_player)
 
             # update player position
-            self.game_logic.player_dict[self.current_player].set_position((row, column))
+            self.game_logic.player_dict[self.game_logic.current_player].set_position((row, column))
             
             # update current category
-            self.current_category = self._get_button(row, column).category
+            self.game_logic.current_category = self._get_button(row, column).category
 
             # update game state and display
             self.game_state = GameState.answer_question
