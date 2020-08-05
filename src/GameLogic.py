@@ -103,8 +103,6 @@ class GameLogic():
     """
     def update_score(self):
         player = self.current_player
-        print(len(self.player_dict[player].get_score()) == 4)
-        print(self.player_dict[player].get_position())
         if len(self.player_dict[player].get_score()) == 4 and self.player_dict[player].get_position() == (6,6):
             self.win_game = True
         else:
