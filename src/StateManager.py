@@ -48,12 +48,12 @@ class StateManager:
         gameplay_frame = GameplayFrame(self.app, save_state)
         self.app.switch_frame(gameplay_frame)
 
-    def transition_to_gameplay_from_question(self, is_correct):
+    def transition_to_gameplay_from_question(self):
         """
         """
         gameplay_frame = GameplayFrame(self.app, self.save_state)
 
-        gameplay_frame.correct_answer = is_correct
+        
 
         self.app.switch_frame(gameplay_frame)
 
@@ -66,7 +66,7 @@ class StateManager:
         # save the current state of the game
         self.save_state = SaveState(gameplay_frame.game_logic)
 
-        frame = QuestionDisplayFrame(self.app, self.app.state_manager, self.app.database_interface, current_category=gameplay_frame.current_category)
+        frame = QuestionDisplayFrame(self.app, self.save_state)
         self.app.switch_frame(frame)
 
     def get_current_state(self):
