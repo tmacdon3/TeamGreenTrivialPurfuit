@@ -23,16 +23,16 @@ class Database():
         # TODO: Make this only happen if things don't already exist
         print("DROP DATABASE")
         self.drop_database()
-        
+
         print("CREATE DATABASE")
         self.create_database()
-        
+
         print("SHOW DATABASE")
         self.show_database()
-        
+
         print("CREATE TABLES")
         self.create_tables()
-        
+
         print("SHOW TABLES")
         self.show_tables()
 
@@ -307,6 +307,7 @@ class Database():
                 category=category,
             )
             cur.execute(sql)
+            conn.commit()
             self.close_db_connection(conn)
         except (Exception, mysql.connector.Error) as error:
             print(error)
@@ -345,6 +346,7 @@ class Database():
             )
             print(sql)
             cur.execute(sql)
+            conn.commit()
             self.close_db_connection(conn)
         except (Exception, mysql.connector.Error) as error:
             print(error)
@@ -370,6 +372,7 @@ class Database():
                 question=question,
             )
             cur.execute(sql)
+            conn.commit()
             self.close_db_connection(conn)
             print("Removed question: {}".format(question))
         except (Exception, mysql.connector.Error) as error:
