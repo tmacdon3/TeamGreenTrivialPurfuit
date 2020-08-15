@@ -185,8 +185,14 @@ class GameplayFrame(tk.Frame):
             self.game_logic.current_category = self._get_button(row, column).category
 
             # update game state and display
-            self.game_state = GameState.answer_question
-            self._update_status_display()
+            # special case if it's a roll again square
+            if ( self.game_logic.current_category == self.game_logic.roll_again_identifier):
+                self.game_state = GameState.roll_die
+                self._update_status_display()
+                self.msg_status["text"] += ". Roll Again Square!"
+            else:
+                self.game_state = GameState.answer_question
+                self._update_status_display()
         else:
             print("Not the correct state to click a button")
         
