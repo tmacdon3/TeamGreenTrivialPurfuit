@@ -176,7 +176,7 @@ class Player(GameLogic):
         # TODO don't make this hardcoded
         self.position = (6,6)
         self.score = ""
-        self.score_matrix = np.array([["people", 0, 0], ["holiday", 0, 0], ["events", 0, 0], ["places", 0, 0]])
+        self.score_matrix = np.array([["category", "correct", "incorrect"], ["people", 0, 0], ["holiday", 0, 0], ["events", 0, 0], ["places", 0, 0]])
 
     def set_position(self, new_position):
         self.position = new_position
@@ -190,24 +190,25 @@ class Player(GameLogic):
     def update_score_matrix(self, category, correct_answer):
         if category == "people":
             if correct_answer == True:
-                self.score_matrix[0][1] = int(self.score_matrix[0][1]) + 1
-            else:
-                self.score_matrix[0][2] = int(self.score_matrix[0][2]) + 1
-        elif category == "holiday":
-            if correct_answer == True:
                 self.score_matrix[1][1] = int(self.score_matrix[1][1]) + 1
             else:
                 self.score_matrix[1][2] = int(self.score_matrix[1][2]) + 1
-        elif category == "events":
+        elif category == "holiday":
             if correct_answer == True:
                 self.score_matrix[2][1] = int(self.score_matrix[2][1]) + 1
             else:
                 self.score_matrix[2][2] = int(self.score_matrix[2][2]) + 1
-        elif category == "places":
+        elif category == "events":
             if correct_answer == True:
                 self.score_matrix[3][1] = int(self.score_matrix[3][1]) + 1
             else:
                 self.score_matrix[3][2] = int(self.score_matrix[3][2]) + 1
+        elif category == "places":
+            if correct_answer == True:
+                self.score_matrix[4][1] = int(self.score_matrix[4][1]) + 1
+            else:
+                self.score_matrix[4][2] = int(self.score_matrix[4][2]) + 1
+        print(self.score_matrix)
 
     def get_position(self):
         return self.position
