@@ -14,7 +14,7 @@ class Database():
         self.user = user
         self.pswrd = pswrd
 
-        self._startup()
+        #self._startup()
 
     def _startup(self):
         """ Initializes all data
