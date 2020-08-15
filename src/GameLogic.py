@@ -16,6 +16,9 @@ class GameLogic():
         self.matrix = []
         # value when it's not a cell
         self.default_matrix_value = -1
+        
+        self.roll_again_index = 4
+        self.roll_again_identifier = "roll_again"
 
         # store this so we don't have to keep reaching out to db
         self.category_color_dict = self.database_interface.get_category_colors()
@@ -24,6 +27,10 @@ class GameLogic():
         self.category_list = []
         for k in self.category_color_dict.keys():
             self.category_list.append(k)
+
+        # also add roll again to the category list
+        self.category_color_dict[self.roll_again_identifier] = "#fffd80"
+        self.category_list.append(self.roll_again_identifier)
 
         self.player_dict = {}
 
@@ -36,17 +43,28 @@ class GameLogic():
     def new_game(self):   
         rows = 13
         columns = 13
+
+        # maintain index lists just for ease of adding roll-again squares later on
+        valid_indices = []
         for row in range(rows):
             new_row = []
             for column in range(columns):
                 if row == 0 or column == 0 or row == rows-1 or column == columns-1 or row == int(rows / 2) or column == int(columns / 2):
-                    cell_type = random.randint(0, len(self.category_list)-1)
+                    # minus 2 to make sure we don't get roll agains
+                    cell_type = random.randint(0, len(self.category_list)-2)
                     new_row.append(cell_type)
+                    valid_indices.append([row, column])
                 else:
                     # just append default if it's not a cell with a button
                     new_row.append(self.default_matrix_value)
 
             self.matrix.append(new_row)
+
+        # now loop through and add 4 random roll-again squares
+        num_roll_again_squares = 4
+        for i in range(num_roll_again_squares):
+            index = random.choice(valid_indices)
+            self.matrix[index[0]][index[1]] = self.roll_again_index
 
     # This method rolls the die for choosing who goes first and for gameplay
     def roll_die(self):
