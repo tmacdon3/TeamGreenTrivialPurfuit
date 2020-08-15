@@ -113,8 +113,10 @@ class QuestionDisplayFrame(tk.Frame):
             print("correct: {} == {}".format(chosen_answer, self.answer))
             self.save_state.game_logic.answered_correctly = True
             self.save_state.game_logic.update_score()
+            self.save_state.game_logic.update_player_data()
             self.state_manager.transition_to_gameplay_from_question()
         else:
             print("incorrect: {} != {}".format(chosen_answer, self.answer))
             self.save_state.game_logic.answered_correctly = False
+            self.save_state.game_logic.update_player_data()
             self.state_manager.transition_to_gameplay_from_question()

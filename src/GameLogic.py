@@ -79,13 +79,6 @@ class GameLogic():
             j = i + 1
             self.player_dict["p{}".format(j)] = Player()
 
-        #self.update_position("p2", (9,19))
-        #self.update_position("p1", (5, 15))
-        #self.update_score("p1", "ac")
-        #self.update_score("p2", "acbd")
-        #print(self.get_all_players_positions())
-        #print(self.get_all_players_scores())
-
 
     # Update player position
     def update_position(self, player, new_position):
@@ -127,6 +120,9 @@ class GameLogic():
                 self.player_iterator += 1
                 self.current_player = self.player_list[self.player_iterator]
 
+    def update_player_data(self):
+        self.player_dict[self.current_player].update_score_matrix(self.current_category, self.answered_correctly)
+
     # Returns the list of player order
     def get_player_order(self):
         return self.player_list        
@@ -159,9 +155,10 @@ class GameLogic():
 
 class Player(GameLogic):
     def __init__(self):
-            # TODO don't make this hardcoded
-             self.position = (6,6)
-             self.score = ""
+        # TODO don't make this hardcoded
+        self.position = (6,6)
+        self.score = ""
+        self.score_matrix = np.array([["people", 0, 0], ["holiday", 0, 0], ["events", 0, 0], ["places", 0, 0]])
 
     def set_position(self, new_position):
         self.position = new_position
@@ -172,11 +169,36 @@ class Player(GameLogic):
         # sort it so they all look in order
         self.score = sorted(self.score)
 
+    def update_score_matrix(self, category, correct_answer):
+        if category == "people":
+            if correct_answer == True:
+                self.score_matrix[0][1] = int(self.score_matrix[0][1]) + 1
+            else:
+                self.score_matrix[0][2] = int(self.score_matrix[0][2]) + 1
+        elif category == "holiday":
+            if correct_answer == True:
+                self.score_matrix[1][1] = int(self.score_matrix[1][1]) + 1
+            else:
+                self.score_matrix[1][2] = int(self.score_matrix[1][2]) + 1
+        elif category == "events":
+            if correct_answer == True:
+                self.score_matrix[2][1] = int(self.score_matrix[2][1]) + 1
+            else:
+                self.score_matrix[2][2] = int(self.score_matrix[2][2]) + 1
+        elif category == "places":
+            if correct_answer == True:
+                self.score_matrix[3][1] = int(self.score_matrix[3][1]) + 1
+            else:
+                self.score_matrix[3][2] = int(self.score_matrix[3][2]) + 1
+
     def get_position(self):
         return self.position
     
     def get_score(self):
         return self.score
+    
+    def get_score_matrix(self):
+        return self.score_matrix
 
 
 
