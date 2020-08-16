@@ -11,6 +11,7 @@ from SaveState import SaveState
 from State import State
 import sys
 import tkinter as tk
+from WedgeDisplayFrame import WedgeDisplayFrame
     
 x_padding = 25
 y_padding = 10
@@ -67,15 +68,15 @@ class GameplayFrame(tk.Frame):
         self.btn_title_screen = tk.Button(master=self, bg=BUTTON_BG, text="Title Screen", command=self.title_screen_btn_command)
         self.btn_title_screen.grid(row=rows, column=0, columnspan=2, sticky="W")
 
-        # player labels
-        self.lbl_player_1 = tk.Label(master=self, text="p1 Score: ", bg=LABEL_BG)
-        self.lbl_player_2 = tk.Label(master=self, text="p2 Score: ", bg=LABEL_BG)
-        self.lbl_player_3 = tk.Label(master=self, text="p3 Score: ", bg=LABEL_BG)
-        self.lbl_player_4 = tk.Label(master=self, text="p4 Score: ", bg=LABEL_BG)
-        self.lbl_player_1.grid(row=rows, column=1, columnspan=3)
-        self.lbl_player_2.grid(row=rows, column=4, columnspan=3)
-        self.lbl_player_3.grid(row=rows, column=7, columnspan=3)
-        self.lbl_player_4.grid(row=rows, column=10, columnspan=3)
+        # create player wedge display
+        self.player_1_wedge = WedgeDisplayFrame(self, "p1 Score")
+        self.player_2_wedge = WedgeDisplayFrame(self, "p2 Score")
+        self.player_3_wedge = WedgeDisplayFrame(self, "p3 Score")
+        self.player_4_wedge = WedgeDisplayFrame(self, "p4 Score")
+        self.player_1_wedge.grid(row=rows, column=1, columnspan=3)
+        self.player_2_wedge.grid(row=rows, column=4, columnspan=3)
+        self.player_3_wedge.grid(row=rows, column=7, columnspan=3)
+        self.player_4_wedge.grid(row=rows, column=10, columnspan=3)
 
         # roll dice button
         self.btn_roll_die = tk.Button(master=self, bg=BUTTON_BG, text="Roll Die", command=self.roll_die_btn_command)
@@ -111,13 +112,13 @@ class GameplayFrame(tk.Frame):
         for k,v in self.game_logic.player_dict.items():
             score = v.get_score()
             if k == "p1":
-                self.lbl_player_1["text"] = "p1 Score: {}".format(score)
+                self.player_1_wedge.update_wedge_from_score(score)
             elif k == "p2":
-                self.lbl_player_2["text"] = "p2 Score: {}".format(score)
+                self.player_2_wedge.update_wedge_from_score(score)
             elif k == "p3":
-                self.lbl_player_3["text"] = "p3 Score: {}".format(score)
+                self.player_3_wedge.update_wedge_from_score(score)
             elif k == "p4":
-                self.lbl_player_4["text"] = "p4 Score: {}".format(score)
+                self.player_4_wedge.update_wedge_from_score(score)
 
     def _update_status_display(self):
         """
