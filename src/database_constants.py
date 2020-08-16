@@ -204,6 +204,10 @@ INSERT INTO answers_places (answer_text)
 VALUES ('massachusetts');
 INSERT INTO answers_places (answer_text)
 VALUES ('the national archives museum');
+INSERT INTO answers_places (answer_text)
+VALUES ('new york');
+INSERT INTO answers_places (answer_text)
+VALUES ('independence hall');
 """
 
 INSERT_ANSWERS_EVENTS_DATA = """
@@ -217,6 +221,10 @@ INSERT INTO answers_events (answer_text)
 VALUES ('july 4, 1776');
 INSERT INTO answers_events (answer_text)
 VALUES ('american revolutionary war');
+INSERT INTO answers_events (answer_text)
+VALUES ('july 2, 1776');
+INSERT INTO answers_events (answer_text)
+VALUES ('july 19, 1776');
 """
 
 INSERT_ANSWERS_HOLIDAY_DATA = """
@@ -228,6 +236,14 @@ INSERT INTO answers_holiday (answer_text)
 VALUES ('1801');
 INSERT INTO answers_holiday (answer_text)
 VALUES ('july 2');
+INSERT INTO answers_holiday (answer_text)
+VALUES ('fireworks');
+INSERT INTO answers_holiday (answer_text)
+VALUES ('war of 1812');
+INSERT INTO answers_holiday (answer_text)
+VALUES ('the star-spangled banner');
+INSERT INTO answers_holiday (answer_text)
+VALUES ('rum');
 """
 
 INSERT_ALL_ASNWERS_DATA = INSERT_ANSWERS_PEOPLE_DATA \
@@ -290,6 +306,15 @@ VALUES ('Where is the DoI stored today?',
 INSERT INTO questions_places (question_text, correct_answer_id)
 VALUES ('Which state was the first state to make July 4th an american holiday?',
 (SELECT answer_id from answers_places where answer_text='massachusetts'));
+INSERT INTO questions_places (question_text, correct_answer_id)
+VALUES ('In which state did a large British reinforcement arrive when delegates began to sign the engrossed copy of the DoI?',
+(SELECT answer_id from answers_places where answer_text='new york'));
+INSERT INTO questions_places (question_text, correct_answer_id)
+VALUES ('Where (state) did George Washington order to DoI to be read in front of the army?',
+(SELECT answer_id from answers_places where answer_text='new york'));
+INSERT INTO questions_places (question_text, correct_answer_id)
+VALUES ('What was the Pennsylvania State House called after the signing of the DoI?',
+(SELECT answer_id from answers_places where answer_text='independence hall'));
 """
 
 INSERT_QUESTIONS_EVENTS_DATA = """
@@ -308,6 +333,15 @@ VALUES ('When was the DoI adopted?',
 INSERT INTO questions_events (question_text, correct_answer_id)
 VALUES ('The DoI was declared a year after the start of which war?',
 (SELECT answer_id from answers_events where answer_text='american revolutionary war'));
+INSERT INTO questions_events (question_text, correct_answer_id)
+VALUES ('When did Congress declare independence as the British fleet and army arrive at New York?',
+(SELECT answer_id from answers_events where answer_text='july 2, 1776'));
+INSERT INTO questions_events (question_text, correct_answer_id)
+VALUES ('When did Congress order the Declaration of Independence engrossed and signed by members?',
+(SELECT answer_id from answers_events where answer_text='july 19, 1776'));
+INSERT INTO questions_events (question_text, correct_answer_id)
+VALUES ('When did Delegates begin to sign the engrossed copy of the Declaration of Independence?',
+(SELECT answer_id from answers_events where answer_text='august 2, 1776'));
 """
 
 INSERT_QUESTIONS_HOLIDAY_DATA = """
@@ -323,6 +357,18 @@ VALUES ('What year was July 4th first celebrated at the White House?',
 INSERT INTO questions_holiday (question_text, correct_answer_id)
 VALUES ('Which month and day did John Adams think Independence Day should be celebrated?',
 (SELECT answer_id from answers_holiday where answer_text='july 2'));
+INSERT INTO questions_holiday (question_text, correct_answer_id)
+VALUES ('What July 4th tradition began in Philadelphia in 1777?',
+(SELECT answer_id from answers_holiday where answer_text='fireworks'));
+INSERT INTO questions_holiday (question_text, correct_answer_id)
+VALUES ('The patriotic celebration became more widespread after what war?',
+(SELECT answer_id from answers_holiday where answer_text='war of 1812'));
+INSERT INTO questions_holiday (question_text, correct_answer_id)
+VALUES ('What is the name of the US national anthem?',
+(SELECT answer_id from answers_holiday where answer_text='the star-spangled banner'));
+INSERT INTO questions_holiday (question_text, correct_answer_id)
+VALUES ('George Washington order a double ration of what drink for his troops to celebrate the holiday?',
+(SELECT answer_id from answers_holiday where answer_text='rum'));
 """
 
 INSERT_ALL_QUESTIONS_DATA = INSERT_QUESTIONS_PEOPLE_DATA \
