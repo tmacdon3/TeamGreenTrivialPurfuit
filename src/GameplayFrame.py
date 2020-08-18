@@ -69,10 +69,10 @@ class GameplayFrame(tk.Frame):
         self.btn_title_screen.grid(row=rows, column=0, columnspan=2, sticky="W")
 
         # create player wedge display
-        self.player_1_wedge = WedgeDisplayFrame(self, "p1 Score")
-        self.player_2_wedge = WedgeDisplayFrame(self, "p2 Score")
-        self.player_3_wedge = WedgeDisplayFrame(self, "p3 Score")
-        self.player_4_wedge = WedgeDisplayFrame(self, "p4 Score")
+        self.player_1_wedge = WedgeDisplayFrame(self, "p1 Score", FRAME_BG)
+        self.player_2_wedge = WedgeDisplayFrame(self, "p2 Score", FRAME_BG)
+        self.player_3_wedge = WedgeDisplayFrame(self, "p3 Score", FRAME_BG)
+        self.player_4_wedge = WedgeDisplayFrame(self, "p4 Score", FRAME_BG)
         self.player_1_wedge.grid(row=rows, column=1, columnspan=3)
         self.player_2_wedge.grid(row=rows, column=4, columnspan=3)
         self.player_3_wedge.grid(row=rows, column=7, columnspan=3)
@@ -150,7 +150,7 @@ class GameplayFrame(tk.Frame):
         """
         if self.game_state == GameState.answer_question:
             print("GameplayFrame: Sending State Transition Request to StateManager")
-            self.state_manager.transition_to_question(self)
+            self.state_manager.transition_to_question(self, self.game_logic.is_current_player_end_game())
         else:
             print("Not the correct state to request a question")
 

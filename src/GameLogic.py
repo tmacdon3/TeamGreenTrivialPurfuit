@@ -168,6 +168,9 @@ class GameLogic():
         """
         return self.player_dict[player].get_score()
 
+    def is_current_player_end_game(self):
+        return (len(self.player_dict[self.current_player].get_score()) == 4)
+
 
 # This class shall be instantiated x number of times, where x is the number of players
 

@@ -6,17 +6,17 @@ import tkinter as tk
 
 class WedgeDisplayFrame(tk.Frame):
 
-    def __init__(self, master, player):
+    def __init__(self, master, player, btn_bg_color):
         """
         """
         tk.Frame.__init__(self, master)
 
         self.lbl_player = tk.Label(self, text=player)
 
-        self.btn_wedge_1 = tk.Button(self)
-        self.btn_wedge_2 = tk.Button(self)
-        self.btn_wedge_3 = tk.Button(self)
-        self.btn_wedge_4 = tk.Button(self)
+        self.btn_wedge_1 = tk.Button(self, bg=btn_bg_color)
+        self.btn_wedge_2 = tk.Button(self, bg=btn_bg_color)
+        self.btn_wedge_3 = tk.Button(self, bg=btn_bg_color)
+        self.btn_wedge_4 = tk.Button(self, bg=btn_bg_color)
         self.btn_wedge_list = [self.btn_wedge_1, self.btn_wedge_2, self.btn_wedge_3, self.btn_wedge_4]
 
         # layout

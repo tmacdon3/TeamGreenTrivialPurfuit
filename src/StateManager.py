@@ -2,6 +2,7 @@
 @author: Tyler MacDonald
 """
 
+from CategorySelectionDisplayFrame import CategorySelectionDisplayFrame
 from DatabaseToolFrame import DatabaseToolFrame
 from GameplayFrame import GameplayFrame
 from NewGameFrame import NewGameFrame
@@ -56,16 +57,19 @@ class StateManager:
         self.app.switch_frame(gameplay_frame)
 
 
-    def transition_to_question(self, gameplay_frame):
+    def transition_to_question(self, gameplay_frame, end_game):
         """
         """
         self.current_state = State.question
-        
-        # save the current state of the game
-        self.save_state = SaveState(gameplay_frame.game_logic)
 
-        frame = QuestionDisplayFrame(self.app, self.save_state)
-        self.app.switch_frame(frame)
+        if end_game:
+            self.app.switch_frame(CategorySelectionDisplayFrame(self.app, gameplay_frame))
+        else:
+            # save the current state of the game
+            self.save_state = SaveState(gameplay_frame.game_logic)
+
+            frame = QuestionDisplayFrame(self.app, self.save_state)
+            self.app.switch_frame(frame)
 
     def get_current_state(self):
         """
