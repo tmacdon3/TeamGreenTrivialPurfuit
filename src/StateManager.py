@@ -9,6 +9,7 @@ from NewGameFrame import NewGameFrame
 from QuestionDisplayFrame import QuestionDisplayFrame
 from SaveState import SaveState
 from State import State
+from StatisticsDisplayFrame import StatisticsDisplayFrame
 import sys
 from TitleScreenFrame import TitleScreenFrame
 import tkinter as tk
@@ -56,7 +57,6 @@ class StateManager:
 
         self.app.switch_frame(gameplay_frame)
 
-
     def transition_to_question(self, gameplay_frame, end_game):
         """
         """
@@ -70,6 +70,11 @@ class StateManager:
 
             frame = QuestionDisplayFrame(self.app, self.save_state)
             self.app.switch_frame(frame)
+
+    def transition_to_statistics_display(self, game_logic):
+        """
+        """
+        self.app.switch_frame(StatisticsDisplayFrame(self.app, game_logic))
 
     def get_current_state(self):
         """

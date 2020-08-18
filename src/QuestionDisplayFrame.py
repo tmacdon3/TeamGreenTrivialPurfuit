@@ -111,10 +111,15 @@ class QuestionDisplayFrame(tk.Frame):
         chosen_answer = self.focus_get()['text']
         if chosen_answer == self.answer:
             print("correct: {} == {}".format(chosen_answer, self.answer))
+            # it's stats time if we are in end game state before incrementing the current success
+            stats_time = self.save_state.game_logic.is_current_player_end_game()
             self.save_state.game_logic.answered_correctly = True
             self.save_state.game_logic.update_score()
             self.save_state.game_logic.update_player_data()
-            self.state_manager.transition_to_gameplay_from_question()
+            if stats_time:
+                self.state_manager.transition_to_statistics_display(self.save_state.game_logic)
+            else:
+                self.state_manager.transition_to_gameplay_from_question()
         else:
             print("incorrect: {} != {}".format(chosen_answer, self.answer))
             self.save_state.game_logic.answered_correctly = False
