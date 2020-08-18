@@ -31,9 +31,9 @@ class WedgeDisplayFrame(tk.Frame):
         """
         if "a" in score:
             self.btn_wedge_1.configure(bg="green")
-        elif "b" in score:
+        if "b" in score:
             self.btn_wedge_2.configure(bg="red")
-        elif "c" in score:
+        if "c" in score:
             self.btn_wedge_3.configure(bg="white")
-        elif "d" in score:
+        if "d" in score:
             self.btn_wedge_4.configure(bg="blue")
